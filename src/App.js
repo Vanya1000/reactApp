@@ -1,17 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-import Tehnologies from './Tehnologies.js';
-import Header from './Header.js';
-let b = 234;
-let c = 345;
-let a = () => b * c;
-
+import Header from './components/Header';
+import Navbar from './components/Navbar';
+import Profile from './components/Profile';
 
 const App = () => {
   return (
-    <div className="App">
-      <Header />
-      <Tehnologies />
+    <div className="app-wrapper">
+      <Header/>
+      <Navbar/>
+      <Profile/>
     </div>
   );
 }
