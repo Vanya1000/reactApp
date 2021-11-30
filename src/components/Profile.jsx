@@ -1,5 +1,6 @@
+import s from './Profile.module.css';
 const Profile = () => {
-	return <div className="content">
+	return <div className={s.content}>
 		<div>
 			<img src="https://static.dw.com/image/18813153_303.jpg" alt="" />
 		</div>

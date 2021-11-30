@@ -95,22 +95,3 @@ body {
 	grid-gap: 10px;
 
 }
-
-.header {
-	grid-area: h;
-	background-color: rgba(129, 129, 129, 0.514);
-}
-.header img {
-	padding-top: 15px;
-	padding-left: 15px;
-	width: 45px;	
-}
-
-.nav {
-	grid-area: n;
-	background-color: rgba(129, 129, 129, 0.479);
-}
-
-.content {
-	grid-area: c;
-}
