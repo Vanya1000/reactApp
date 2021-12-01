@@ -12,7 +12,6 @@ const MyPosts = () => {
 			<div>
 				<Post message='Hi, how a you?' likesCount='15' />
 					<Post message='Its my first post!' likesCount='25'/>
-
 			</div>
 		</div>
 	</div>

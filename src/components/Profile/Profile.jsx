@@ -3,7 +3,7 @@ import MyPosts from './MyPosts/MyPosts';
 
 const Profile = () => {
 	return (
-		<div className={s.content}>
+		<div>
 			<div>
 				<img src="https://static.dw.com/image/18813153_303.jpg" alt="" />
 			</div>

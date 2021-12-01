@@ -1,11 +1,13 @@
 .nav {
 	grid-area: n;
-	background-color: rgba(129, 129, 129, 0.479);
+	background-color: rgb(255, 255, 255);
 	padding: 10px 0px 0px 10px;
+	min-height: 500px;
+	border-radius: 5px;
 }
 
 .item {
-	color: white;
+	color: rgb(0, 0, 0);
 }
 .active {
 	color: yellow;
