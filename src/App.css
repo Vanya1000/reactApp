@@ -98,7 +98,7 @@ body {
 
 .app-wrapper-content {
 	grid-area: c;
-	background-color: #fff;
+	background-color: rgb(233, 233, 233);
 	border-radius: 5px;
 }
 

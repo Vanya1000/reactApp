@@ -8,8 +8,6 @@ const Post = (props) => {
 		<div>
 				<span>like</span> {props.likesCount}
 		</div>
-			<input value="5" />
-			<input value="6" />
 	</div>
 	)
 }

@@ -1,15 +1,11 @@
 import s from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 
 const Profile = () => {
 	return (
-		<div>
-			<div>
-				<img src="https://static.dw.com/image/18813153_303.jpg" alt="" />
-			</div>
-			<div>
-				ava + discription
-			</div>
+		<div className={s.pad}>
+			<ProfileInfo />
 			<MyPosts />
 		</div>
 	)
