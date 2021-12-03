@@ -5,11 +5,28 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 
+let posts = [
+  { id: 1, message: 'Hi, how a you?', likesCount: 15 },
+  { id: 1, message: 'Its my first post!', likesCount: 25 }
+];
+
+let dialogs = [
+  { id: 1, name: 'Ivan' },
+  { id: 2, name: 'Alex' },
+  { id: 3, name: 'Kesha' },
+  { id: 4, name: 'Inokentiy' }
+];
+
+let messages = [
+  { id: 1, message: 'What you name?' },
+  { id: 2, message: 'Tony' },
+  { id: 3, message: 'Fack you Tony!' },
+  { id: 4, message: 'What you name?' }
+];
+
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <App dialogs={dialogs} messages={messages} posts={posts}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
