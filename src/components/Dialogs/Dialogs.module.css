@@ -1,7 +1,7 @@
 .dialogs {
 	display: grid;
 	grid-template-columns: 2fr 10fr;
-	grid-template-rows: 6fr 1fr;
+	grid-template-rows: 11fr 1fr;
 	gap: 10px;
 
 }
@@ -34,12 +34,13 @@
 }
 .dialogInput textarea {
 	width: 500px;
-   height: 70px;
+   height: 30px;
    border: none;
 	background: white;
    resize: none;
    overflow: auto;
-	border-radius: 10px;
+	border-radius: 5px;
+	padding-top: 4px;
 }
 .dialogInput button {
 	-webkit-writing-mode: horizontal-tb !important;
