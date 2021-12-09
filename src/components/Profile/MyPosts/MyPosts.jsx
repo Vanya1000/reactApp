@@ -1,6 +1,9 @@
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import React from 'react';
+import { addPostActionCreator, updateNewPostTextActionCreator } from '../../../redux/state';
+
+
 
 const MyPosts = (props) => {
 	let postsElement = props.posts.map(p => <Post message={p.message} likesCount={p.likesCount} />)
@@ -8,12 +11,14 @@ const MyPosts = (props) => {
 	let newPostElement = React.createRef();
 
 	let addPost = () => {
-		props.addPost();
+		props.dispatch(addPostActionCreator());
 	};
 
 	let onPostChange = (text) => {
+		{/*Получ value и вызываем функцию из state и передаем ей value*/ }
 		let textCh = newPostElement.current.value;
-		props.updateNewPostText(textCh);
+		let action = updateNewPostTextActionCreator(textCh);
+		props.dispatch(action);
 	}
 
 	return (
@@ -24,7 +29,7 @@ const MyPosts = (props) => {
 				</h3>
 				<div>
 					<div>
-						<textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText} />
+						<textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText} />{/*В момент события onChange вызываем функцию*/}
 					</div>
 					<div>
 						<button onClick={addPost}>Add post</button>
