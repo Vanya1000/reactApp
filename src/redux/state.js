@@ -1,7 +1,6 @@
-const ADD_POST = 'ADD-POST'; {/*action type*/ } {/*используем вместо строк что бы не опечататься*/ }
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-const ADD_MESSAGE = 'ADD-MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'; {/*redux смотрит совпад и анализирует и выполняет action*/ }
+import dialogsReducer from "./dialogsReducer";
+import profileReducer from "./profileReducer";
+import sidebarReducer from "./sidebarReducer";
 
 let store = {
 	_state: {
@@ -48,43 +47,13 @@ let store = {
 	},
 
 	dispatch (action) {
-		if (action.type ==='ADD-POST') {
-			let newPosts = {
-				id: 5,
-				message: this._state.profilePage.newPostText,
-				likesCount: 0
-			};
-			this._state.profilePage.posts.push(newPosts);
-			this._state.profilePage.newPostText = '';
-			this._callSubscriber(this._state);
-		} else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-			this._state.profilePage.newPostText = action.newText;
-			this._callSubscriber(this._state);
-		} else if (action.type === 'ADD-MESSAGE') {
-			let newMessage = {
-				id: 5,
-				message: this._state.dialogsPage.newMessageText,
-			};
-			this._state.dialogsPage.messages.push(newMessage);
-			this._state.dialogsPage.newMessageText = '';
-			this._callSubscriber(this._state);
-		} else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
-			this._state.dialogsPage.newMessageText = action.newText;
-			this._callSubscriber(this._state);
-		}
+		this._state.profilePage = profileReducer(this._state.profilePage, action);{/*новый profilePage присваивается переработанный*/}
+		this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action); {/*state обновиться блягодаря этому reducer*/ }
+		this._state.sidebar = sidebarReducer(this._state.sidebar, action);
+
+		this._callSubscriber(this._state);
 	}
 }
-
-export const addPostActionCreator = () => ({ type: ADD_POST });
-{/*Вспомогательная функция которая помогает не ошибиться в созд action */ }
-
-export const updateNewPostTextActionCreator = (textCh) => 
-({type: UPDATE_NEW_POST_TEXT, newText: textCh});
-
-export const addMessageActionCreator = () => ({ type: ADD_MESSAGE });
-
-export const updateNewMessageTextActionCreator = (text) => 
-	({ type: UPDATE_NEW_MESSAGE_TEXT, newText: text });
 
 export default store;
 window.store = store;

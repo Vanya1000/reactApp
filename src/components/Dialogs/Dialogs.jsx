@@ -3,7 +3,7 @@ import DialogItem from './DialogItem/DialogItem';
 import s from './Dialogs.module.css';
 import Message from './Message/Message';
 import React from 'react';
-import { addMessageActionCreator, updateNewMessageTextActionCreator } from '../../redux/state';
+import { addMessageActionCreator, updateNewMessageTextActionCreator } from '../../redux/dialogsReducer';
 
 
 
@@ -21,7 +21,6 @@ const Dialogs = (props) => {
 		props.dispatch(action);
 	}
 
-	console.log(props);
 	return (
 		<div className={s.dialogs}>
 			<div className={s.dialogs__item}>
