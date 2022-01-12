@@ -1,0 +1,48 @@
+.notes__wrapper {
+	font-family: sans-serif, monospace;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.notes__title {
+	font-size: 30px;
+}
+.notes__visualBlock {
+	display: flex;
+	flex-wrap: wrap;
+	min-height: 500px;
+}
+
+.notes__sendBlock {
+	display: flex;
+	gap: 20px;
+	
+}
+.notes__sendBlock textarea  {
+    font-size: 20px;
+    min-height: 70px;
+    min-width: 500px;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid #c1c1c1;
+}
+.notes__sendBlock button {
+	display: block;
+  width: 100px;
+  margin: auto 0;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  background-color: #c1c1c1;
+  font: 18px 'Opens Sans', sans-serif;
+  letter-spacing: 1px;
+  appearance: none;
+  cursor: pointer;
+}
+.notes__sendBlock button:hover {
+	background-color: #ffc;
+	color: black;
+
+}

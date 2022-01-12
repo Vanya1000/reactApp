@@ -8,6 +8,7 @@ import Profile from './components/Profile/Profile';
 import Settings from './components/Settings/Settings';
 import News from './components/News/News';
 import Music from './components/Music/Music';
+import Notes from './components/Notes/Notes';
 
 
 
@@ -21,11 +22,11 @@ const App = (props) => {
           <Routes>
             <Route path="/dialogs" element={<Dialogs state={props.state.dialogsPage}
               dispatch={props.dispatch}/>} />
-            <Route path="/profile" element={<Profile 
-              profilePage={props.state.profilePage}
-              dispatch={props.dispatch} />} />
+            <Route path="/profile" element={<Profile store={props.store} />} />
             <Route path="/news" element={<News />} />
             <Route path="/music" element={<Music />} />
+            <Route path="/notes" element={<Notes state={props.state.note}
+              dispatch={props.dispatch}/>} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </div>

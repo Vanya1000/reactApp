@@ -10,15 +10,14 @@ const MyPosts = (props) => {
 
 	let newPostElement = React.createRef();
 
-	let addPost = () => {
-		props.dispatch(addPostActionCreator());
+	let onAddPost = () => {
+		props.addPost();
 	};
 
 	let onPostChange = (text) => {
 		{/*Получ value и вызываем функцию из state и передаем ей value*/ }
 		let textCh = newPostElement.current.value;
-		let action = updateNewPostTextActionCreator(textCh);
-		props.dispatch(action);
+		props.updateNewPostText(textCh);
 	}
 
 	return (
@@ -29,10 +28,10 @@ const MyPosts = (props) => {
 				</h3>
 				<div>
 					<div>
-						<textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText} />{/*В момент события onChange вызываем функцию*/}
+						<textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText} />
 					</div>
 					<div>
-						<button onClick={addPost}>Add post</button>
+						<button onClick={onAddPost}>Add post</button>
 					</div>
 				</div>
 				<div className={s.messageBlock}>

@@ -20,6 +20,9 @@ const Navbar = (props) => {
 				<NavLink to="/music" className={setActive}>Music</NavLink>
 			</div>
 			<div className={s.item}>
+				<NavLink to="/notes" className={setActive}>Notes</NavLink>
+			</div>
+			<div className={s.item}>
 				<NavLink to="/settings" className={setActive}>Settings</NavLink>
 			</div>
 			<FriendsBlock friends={props.state.friends} />
