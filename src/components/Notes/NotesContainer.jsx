@@ -3,37 +3,32 @@ import NotesPost from './NotesPost/NotesPost';
 import React from 'react';
 import { addNoteActionCreator, updateNewNoteTextActionCreator } from '../../redux/noteReducer';
 import Notes from './Notes';
-import StoreContext from '../../StoreContext';
+import { connect } from 'react-redux';
 
-const NotesContainer = (props) => {
-
-	return (
-		<StoreContext.Consumer>
-			{(store) =>{
-				let state = store.getState()
-
-				let keycheck = (event) => {
-					if (event.code == 'Enter' && state.newNoteText !== "") {
-						addNotes();
-					};
-				}
-
-				let addNotes = () => {
-					store.dispatch(addNoteActionCreator())
-				}
-
-				let onNotesTextUpdate = (textInputTextarea) => {
-					let action = updateNewNoteTextActionCreator(textInputTextarea);
-					store.dispatch(action)
-				}
-				return <Notes
-					addNotes={addNotes}
-					updateNotesText={onNotesTextUpdate}
-					keycheck={keycheck}
-					notes={state.note.note}
-					newNoteText={state.note.newNoteText} />
-			}}
-		</StoreContext.Consumer>
-	)
+const mapStateToProps = (state) => {
+	return {
+		notes: state.note.note,
+		newNoteText: state.note.newNoteText
+	}
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		addNotes: () => {
+			dispatch(addNoteActionCreator());
+		},
+		updateNotesText: (textInputTextarea) => {
+			let action = updateNewNoteTextActionCreator(textInputTextarea);
+			dispatch(action);
+		},
+		//keycheck: (event) => {
+		//	if (event.code == 'Enter' && state.newNoteText !== "") {
+		//		addNotes();
+		//	};
+		//}
+	}
+}
+
+const NotesContainer = connect(mapStateToProps, mapDispatchToProps)(Notes)
+
 export default NotesContainer;

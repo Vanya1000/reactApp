@@ -8,10 +8,12 @@ const Notes = (props) => {
 
 
 	let newNotesElement = React.createRef();
-
+/*
 	let keycheck = (event) => {
 		props.keycheck(event);
 	}
+	onKeyDown={keycheck}
+*/
 
 let addNotes = () => {
 	props.addNotes()
@@ -30,7 +32,7 @@ let addNotes = () => {
 				{noteItem}
 			</div>
 			<div className={s.notes__sendBlock}>
-				<textarea onKeyDown={keycheck} ref={newNotesElement} onChange={onNotesTextUpdate} value={props.newNoteText}></textarea>
+				<textarea  ref={newNotesElement} onChange={onNotesTextUpdate} value={props.newNoteText}></textarea>
 				<button onClick={addNotes}>Send</button>
 			</div>
 		</div>

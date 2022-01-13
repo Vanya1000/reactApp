@@ -1,17 +1,22 @@
-import StoreContext from '../../../StoreContext';
+
+import { connect } from 'react-redux';
 import FriendsBlock from './FriendsBlock';
 import s from './FriendsBlock.module.css';
 import FriendsItem from './FriendsItem/FriendsItem';
 
-const FriendsBlockContainer = () => {
-	return (
-		<StoreContext.Consumer>
-			{(store) => {
-				let state = store.getState();
-				return <FriendsBlock friends={state.sidebar.friends} />
-			}}
-		</StoreContext.Consumer>
-	)
+
+const mapStateToProps = (state) => {
+	return {
+		friends: state.sidebar.friends
+	}
 }
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+
+	}
+}
+
+const FriendsBlockContainer = connect(mapStateToProps, mapDispatchToProps)(FriendsBlock)
 
 export default FriendsBlockContainer;
