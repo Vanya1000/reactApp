@@ -1,7 +1,7 @@
 .dialogs {
 	display: grid;
 	grid-template-columns: 2fr 10fr;
-	grid-template-rows: 11fr 1fr;
+	grid-template-rows: 5fr 1fr;
 	gap: 10px;
 
 }
@@ -28,7 +28,7 @@
 		align-items: flex-end;
 		overflow: scroll;
 		overflow-x:hidden;
-		height: 700px;
+		height: 500px;
 }
 
 .dialogInput {

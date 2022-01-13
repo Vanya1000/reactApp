@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 import FriendsBlock from './FriendsBlock/FriendsBlock';
+import FriendsBlockContainer from './FriendsBlock/FriendsBlockContainer';
 import s from './Navbar.module.css';
 const setActive = ({isActive}) => isActive ? s.activeLink : '';
 
@@ -25,7 +26,7 @@ const Navbar = (props) => {
 			<div className={s.item}>
 				<NavLink to="/settings" className={setActive}>Settings</NavLink>
 			</div>
-			<FriendsBlock friends={props.state.friends} />
+			<FriendsBlockContainer />
 		</nav>
 	)
 }
