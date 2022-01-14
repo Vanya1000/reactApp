@@ -13,17 +13,19 @@ let initialState = {
 
 const noteReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case ADD_NOTE:
-			let newNote = {
-				id: 5,
-				note: state.newNoteText
-			};
-			state.note.push(newNote);
-			state.newNoteText = '';
-			return state;
-		case UPDATE_NEW_NOTE_TEXT:
-			state.newNoteText = action.newText;
-			return state;
+		case ADD_NOTE: {
+			return {
+				...state,
+				note: [...state.note, { id: 5, note: state.newNoteText }],
+				newNoteText: ''
+			}
+		}
+		case UPDATE_NEW_NOTE_TEXT: {
+			return {
+				...state,
+				newNoteText: action.newText
+			}
+		}
 		default:
 			return state;
 	}

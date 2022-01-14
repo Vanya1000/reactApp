@@ -8,8 +8,8 @@ import { addMessageActionCreator, updateNewMessageTextActionCreator } from '../.
 
 
 const Dialogs = (props) => {
-	let dialogsElements = props.dialogs.map((d) => <DialogItem id={d.id} name={d.name} />)
-	let messagesElements = props.messages.map((m) => <Message message={m.message} />)
+	let dialogsElements = props.dialogs.map((d) => <DialogItem id={d.id} key={d.id} name={d.name} />)
+	let messagesElements = props.messages.map((m) => <Message message={m.message} key={m.id} />)
 	let newMessage = React.createRef();
 
 	let addMessage = () => {

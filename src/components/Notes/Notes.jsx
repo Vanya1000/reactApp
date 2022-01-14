@@ -4,7 +4,7 @@ import React from 'react';
 import { addNoteActionCreator, updateNewNoteTextActionCreator } from '../../redux/noteReducer';
 
 const Notes = (props) => {
-	let noteItem = props.notes.map((notesItem) => <NotesPost note={notesItem.note} />)
+	let noteItem = props.notes.map((notesItem) => <NotesPost note={notesItem.note} key={notesItem.id} />)
 
 
 	let newNotesElement = React.createRef();

@@ -7,22 +7,16 @@ import App from './App';
 import { Provider } from 'react-redux';
 
 
-let rerenderEntireTree = (state) => {
-	ReactDOM.render(
-		<React.StrictMode>
-			<Provider store={store}>
-				<App />
-			</Provider>
-		</React.StrictMode>,
-		document.getElementById('root')
-	);
-}
 
-rerenderEntireTree(store.getState());
-store.subscribe(() => {
-	let state = store.getState();/*передаем state дальше*/
-	rerenderEntireTree(state);
-});
+ReactDOM.render(
+	<React.StrictMode>
+		<Provider store={store}>
+			<App />
+		</Provider>
+	</React.StrictMode>,
+	document.getElementById('root')
+);
+
 /*rerenderEntireTree(store.getState());
 store.subscribe(rerenderEntireTree);
 store redux не умеет передавть стор, поэтому мы через анонимную функцию это сделаем*/
