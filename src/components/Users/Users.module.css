@@ -1,0 +1,74 @@
+.user__wrapper {
+	display: flex;
+	max-width: 700px;
+	margin: 20px auto;
+	border: 1px solid white;
+	padding: 20px;
+	border-radius: 6px;
+}
+.user__leftBlock {
+	flex: 0 1 20%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.user__rightBlock {
+	flex: 0 1 80%;
+	position: relative;
+	padding: 20px;
+}
+.user__foto {
+	margin-bottom: 10px;
+}
+.user__foto img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+
+.user__button button {
+	display: block;
+	width: 100px;
+	padding: 10px;
+	border: none;
+	border-radius: 6px;
+	color: white;
+	background-color: #c1c1c1;
+	appearance: none;
+	cursor: pointer;
+	text-align: center;
+	font: 18px 'Opens Sans', sans-serif;
+}
+
+.user__button button:hover {
+	background-color: #ffc;
+	color: black;
+}
+
+.user__name {
+	font-size: 23px;
+	font-weight: 700;
+	margin-bottom: 10px;
+}
+
+.user__location {
+	position: absolute;
+	right: 20px;
+	top: 20px;
+	font-size: 23px;
+	font-weight: 400;
+	padding-bottom: 10px;
+}
+
+.user__locationCity {
+	margin-bottom: 5px;
+}
+
+.user__locationCountry {
+}
+
+.user__status {
+	font-size: 20px;
+	font-weight: 400;
+}

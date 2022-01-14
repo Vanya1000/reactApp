@@ -1,3 +1,4 @@
+import React from "react";
 import s from './FriendsBlock.module.css';
 import FriendsItem from './FriendsItem/FriendsItem';
 

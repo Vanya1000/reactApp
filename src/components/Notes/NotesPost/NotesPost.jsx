@@ -1,3 +1,4 @@
+import React from "react";
 import s from './NotesPost.module.css';
 
 const NotesPost = (props) => {
