@@ -4,4 +4,16 @@
 
 .discriptionBlock {
 	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 20px;
+}
+.discriptionBlock h1 {
+	font-size: 35px;
+	font-weight: 700;
+}
+.discriptionBlock h2 {
+	font-size: 25px;
+	font-weight: 500;
 }
