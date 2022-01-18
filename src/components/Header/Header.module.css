@@ -2,9 +2,14 @@
 	grid-area: h;
 	background-color: #fff;
 	border-radius: 7px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0px 10px;
 }
 .header img {
-	padding-top: 15px;
-	padding-left: 15px;
 	width: 45px;	
+}
+.login__block a {
+	color: black;
 }
