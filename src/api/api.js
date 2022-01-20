@@ -32,11 +32,6 @@ export  const usersAPI = {//вспомагательный объект кото
 			.then(response => {
 				return response.data;//возвращаем только data(инкапсулируем)
 			})
-	},setFollow(id) {
-		return instance.delete(`follow/${id}`)
-			.then(response => {
-				return response.data;//возвращаем только data(инкапсулируем)
-			})
 	},
 	setUnfollow(id) {
 		return instance.post(`follow/${id}`)

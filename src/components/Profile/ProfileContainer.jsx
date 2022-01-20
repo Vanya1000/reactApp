@@ -3,7 +3,7 @@ import s from './Profile.module.css';
 import Profile from "./Profile";
 import * as axios from 'axios';
 import { connect } from "react-redux";
-import { setUserProfile } from "../../redux/profileReducer";
+import { getUserProfileThunkCreator, setUserProfile } from "../../redux/profileReducer";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import { usersAPI } from "../../api/api";
 
@@ -12,13 +12,11 @@ import { usersAPI } from "../../api/api";
 class ProfileContainer extends React.Component {
 	debugger;
 	componentDidMount() {
-		let userId = this.props.match.params.userId;
+	let userId = this.props.match.params.userId;
 		if (!userId) {
-			userId = 2;
-		}
-		usersAPI.getUserProfile(userId).then(data => {
-			this.props.setUserProfile(data)
-		})
+			userId = 21887;
+		} 
+		this.props.getUserProfileThunkCreator(userId)
 	}
 	render () {
 		return (
@@ -35,4 +33,4 @@ const mapStateToProps = (state) => {
 
 let WithUrlDataContainerComponent = withRouter(ProfileContainer)
 
-export default connect(mapStateToProps, { setUserProfile })(WithUrlDataContainerComponent);
+export default connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator })(WithUrlDataContainerComponent);
