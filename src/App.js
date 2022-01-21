@@ -10,6 +10,7 @@ import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import { BrowserRouter, Route } from 'react-router-dom';
 import HeaderContainer from './components/Header/HeaderContainer';
+import LoginPage from './components/Login/Login';
 
 
 
@@ -28,6 +29,7 @@ const App = (props) => {
           <Route path="/notes" render={() => <NotesContainer />} />
           <Route path="/users" render={() => <UsersContainer />} />
           <Route path="/settings" render={() => <Settings />} />
+          <Route path="/login" render={() => <LoginPage />} />
         </div>
       </div>
     </BrowserRouter>

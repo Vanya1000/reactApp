@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { getUserProfileThunkCreator, setUserProfile } from "../../redux/profileReducer";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import { usersAPI } from "../../api/api";
+import { Redirect } from "react-router-dom";
+import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 
 
 
@@ -25,12 +27,14 @@ class ProfileContainer extends React.Component {
 	}
 }
 
+let AuthRedirectComponent = withAuthRedirect(ProfileContainer)// это наш контейнерный компонет его рисует ithUrlDataContainerComponent, а он рисует ProfileContainer 
+
 const mapStateToProps = (state) => {
 	return ({
-		profile: state.profilePage.profile
+		profile: state.profilePage.profile,
 	})
 }
 
-let WithUrlDataContainerComponent = withRouter(ProfileContainer)
+let WithUrlDataContainerComponent = withRouter(AuthRedirectComponent)
 
 export default connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator })(WithUrlDataContainerComponent);

@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import DialogItem from './DialogItem/DialogItem';
 import s from './Dialogs.module.css';
 import Message from './Message/Message';
@@ -20,7 +20,6 @@ const Dialogs = (props) => {
 		let text = newMessage.current.value;
 		props.onMessageChange(text);
 	}
-
 	return (
 		<div className={s.dialogs}>
 			<div className={s.dialogs__item}>

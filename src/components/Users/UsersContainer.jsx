@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { follow, setCurrentPage, unfollow, toggleFollowingProgress, getUsersThunkCreator, getUsersOnPagechangedThunkCreator } from "../../redux/usersReducer";
 import Preloader from '../common/Preloader/Preloader';
+import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 
 
 class UsersAPIComponent extends React.Component {
@@ -32,6 +33,8 @@ class UsersAPIComponent extends React.Component {
 	}
 }
 
+let AuthRedirectComponent = withAuthRedirect(UsersAPIComponent)// это наш контейнерный компонет HOC
+
 const mapStateToProps = (state) => {
 	return ({
 		users: state.usersPage.users,
@@ -50,7 +53,7 @@ const UsersContainer = connect(mapStateToProps, {
 	toggleFollowingProgress,
 	getUsers: getUsersThunkCreator,
 	getUsersOnPagechangedThunkCreator
-})(UsersAPIComponent)
+})(AuthRedirectComponent)
 
 export default UsersContainer;
 
