@@ -38,6 +38,15 @@ export  const usersAPI = {//вспомагательный объект кото
 			.then(response => {
 				return response.data;//возвращаем только data(инкапсулируем)
 			})
+	},
+	setStatus(newStatusText) {
+		return instance.put(`profile/status`, { status: newStatusText });
+	},
+	getStatus(id) {
+		return instance.get(`profile/status/${id}`)
+			.then(response => {
+				return response.data;//возвращаем только data(инкапсулируем)
+			})
 	}
 }
 

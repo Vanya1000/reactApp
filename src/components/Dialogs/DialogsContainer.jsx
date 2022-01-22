@@ -6,6 +6,7 @@ import { addMessageActionCreator, updateNewMessageTextActionCreator } from '../.
 import Dialogs from './Dialogs';
 import { connect } from 'react-redux';
 import { withAuthRedirect } from '../../HOC/withAuthRedirect';
+import { compose } from 'redux';
 
 const mapStateToProps = (state) => {
 	return {
@@ -28,9 +29,12 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-let AuthRedirectComponent = withAuthRedirect(Dialogs)// это наш контейнерный компонет его рисует ithUrlDataContainerComponent, а он рисует ProfileContainer 
+//let AuthRedirectComponent = withAuthRedirect(Dialogs)// это наш контейнерный компонет его рисует ithUrlDataContainerComponent, а он рисует ProfileContainer 
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
+//const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
 
 
-export default DialogsContainer;
+export default compose (
+	connect(mapStateToProps, mapDispatchToProps),
+	withAuthRedirect,
+) (Dialogs);

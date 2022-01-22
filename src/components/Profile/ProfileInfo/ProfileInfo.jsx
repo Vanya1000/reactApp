@@ -1,5 +1,6 @@
 import Preloader from '../../common/Preloader/Preloader';
 import s from './ProfileInfo.module.css';
+import ProfileStatus from './ProfileStatus';
 
 const ProfileInfo = (props) => {
 	if (!props.profile) {
@@ -7,13 +8,14 @@ const ProfileInfo = (props) => {
 	}
 	return (
 		<div>
-			<div className={s.image}>
+			{/* <div className={s.image}>
 				<img src="https://static.dw.com/image/18813153_303.jpg" alt="" />
-			</div>
+			</div> */}
 			<div className={s.discriptionBlock}>
 				<div>
 					<img src={props.profile.photos.large} alt="avatar" />
 				</div>
+				<ProfileStatus status={'Hello'} />
 				<div>
 					<h1>{props.profile.fullName}</h1>
 				</div>

@@ -8,11 +8,11 @@ import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import { usersAPI } from "../../api/api";
 import { Redirect } from "react-router-dom";
 import { withAuthRedirect } from "../../HOC/withAuthRedirect";
+import { compose } from "redux";
 
 
 
 class ProfileContainer extends React.Component {
-	debugger;
 	componentDidMount() {
 	let userId = this.props.match.params.userId;
 		if (!userId) {
@@ -27,7 +27,7 @@ class ProfileContainer extends React.Component {
 	}
 }
 
-let AuthRedirectComponent = withAuthRedirect(ProfileContainer)// это наш контейнерный компонет его рисует ithUrlDataContainerComponent, а он рисует ProfileContainer 
+//let AuthRedirectComponent = withAuthRedirect(ProfileContainer)// это наш контейнерный компонет его рисует ithUrlDataContainerComponent, а он рисует ProfileContainer 
 
 const mapStateToProps = (state) => {
 	return ({
@@ -35,6 +35,12 @@ const mapStateToProps = (state) => {
 	})
 }
 
-let WithUrlDataContainerComponent = withRouter(AuthRedirectComponent)
+//let WithUrlDataContainerComponent = withRouter(AuthRedirectComponent)
 
-export default connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator })(WithUrlDataContainerComponent);
+//export default connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator })(WithUrlDataContainerComponent);
+
+export default compose(
+	connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator }),
+	withRouter,
+	withAuthRedirect,
+)(ProfileContainer)
