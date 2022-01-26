@@ -15,13 +15,6 @@ export  const usersAPI = {//вспомагательный объект кото
 				return response.data;//возвращаем только data(инкапсулируем)
 			})
 	},
-	checksLogin () {
-		return instance.get('auth/me')
-			.then(response => {
-				return response.data;//возвращаем только data(инкапсулируем)
-			})
-	},
-	
 	setFollow(id) {
 		return instance.delete(`follow/${id}`)
 	},
@@ -53,7 +46,26 @@ export const profileAPI = {
 }
 
 
-
+export const authAPI = {
+	checksLogin() {
+		return instance.get('auth/me')
+			.then(response => {
+				return response.data;
+			})
+	},
+	login(email, password, rememberMe = false) {
+		return instance.post('auth/login', { email, password, rememberMe})
+			.then(response => {
+				return response.data;//возвращаем только data(инкапсулируем)
+			})
+	},
+	logout() {
+		return instance.delete('auth/login')
+			.then(response => {
+				return response.data;//возвращаем только data(инкапсулируем)
+			})
+	}
+}
 
 
 

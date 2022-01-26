@@ -3,19 +3,26 @@ import { useForm, Controller } from "react-hook-form";
 import { UserOutlined } from '@ant-design/icons';
 import s from './Login.module.css';
 import { Form, Input, Button, Checkbox } from 'antd';
+import { connect } from "react-redux";
+import { loginTC } from "../../redux/auth-reducer";
+import { Redirect } from "react-router-dom";
 
 const Loginform = (props) => {
 	const { control, register, handleSubmit, reset, formState: { errors } } = useForm();
-	const onSubmit = data => {
-		console.log(data);
+	const onSubmit = (formData) => {
+		props.onSubmit(formData);
 		reset();
 	}
+	const errorClass = errors?.password || props.isWrong && s.error;
 	return (
 		<div className={s.formBlock}>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div>
+					<div>
+						{props.isWrong && <p>login/password incorrect</p>}
+					</div>
 					<Controller
-						name="login"
+						name="email"
 						control={control}
 						rules={{ required: 'First name required' }}
 						render={({ field: { onChange, value } }) => (
@@ -23,7 +30,7 @@ const Loginform = (props) => {
 								value={value}
 								onChange={onChange}
 								placeholder="login"
-								className={errors?.login && s.error}
+								className={errorClass}
 							/>
 						)}
 					/>
@@ -38,7 +45,7 @@ const Loginform = (props) => {
 								value={value}
 								onChange={onChange}
 								placeholder="password"
-								className={errors?.password && s.error}
+								className={errorClass}
 							/>
 						)}
 					/>
@@ -52,7 +59,6 @@ const Loginform = (props) => {
 							<Checkbox
 								value={value}
 								onChange={onChange}
-								checked={false}
 							>Remember me</Checkbox>
 						)}
 					/>
@@ -70,39 +76,20 @@ const Loginform = (props) => {
 
 
 const Login = (props) => {
+	const onSubmit = formData => {
+		props.loginTC(formData.email, formData.password, formData.rememberMe);
+	}
+	if (props.isAuth) {
+		return <Redirect to={"/profile"} />
+	}
 	return <div>
 		<h1 className={s.title}>Login</h1>
-		<Loginform />
+		<Loginform isWrong={props.isWrong} onSubmit={onSubmit} />
 	</div>
 }
-
-export default Login;
-/* const { register, handleSubmit, reset, formState: { errors } } = useForm();
-const onSubmit = data => {
-	console.log(data);
-	reset();
-} */
-{/* <div className={s.formBlock}>
-	<form onSubmit={handleSubmit(onSubmit)}>
-		<div>
-			<input className={errors?.login && s.error} placeholder={"login"} {...register("login",
-				{ required: 'Field is requared' })} />
-		</div>
-		<div style={{ color: 'red' }}>
-			{errors?.login && <p>{errors?.login?.message || "Error!"}</p>}
-		</div>
-		<div>
-			<input className={errors?.password && s.error} type={"password"} placeholder={"password"} {...register("password", { required: 'Field is requared' })} />
-		</div>
-		<div style={{ color: 'red' }}>
-			{errors?.password && <p>{errors?.password?.message || "Error!"}</p>}
-		</div>
-		<div>
-			<input type={"checkbox"}  {...register("rememberMe")} />remember me
-		</div>
-		<div>
-			<input type="submit" />
-		</div>
-	</form>
-</div> */}
+const mapStateToProps= (state) => ({
+	isAuth: state.auth.isAuth,
+	isWrong: state.auth.isWrong
+})
+export default connect(mapStateToProps, { loginTC}) (Login);
 
