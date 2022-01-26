@@ -14,31 +14,22 @@ let initialState = {
 		{ id: 3, message: 'Fack you Tony!' },
 		{ id: 4, message: 'What you name?' }
 	],
-	newMessageText: ''
 };
 
 const dialogsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_MESSAGE:
-			let body = state.newMessageText;
 			return {
 				...state,
-				newMessageText: '',
-				messages: [...state.messages, {id: 5, message: body}]
-			}
-		case UPDATE_NEW_MESSAGE_TEXT:
-			return {
-				...state,
-				newMessageText: action.newText
+				messages: [...state.messages, { id: 5, message: action.newMessage}]
 			}
 		default:
 			return state;
 	}
 }
 
-export const addMessageActionCreator = () => ({ type: ADD_MESSAGE });
+export const addMessageActionCreator = (message) =>
+	({ type: ADD_MESSAGE, newMessage: message });
 
-export const updateNewMessageTextActionCreator = (text) =>
-	({ type: UPDATE_NEW_MESSAGE_TEXT, newText: text });
 
 export default dialogsReducer;

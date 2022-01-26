@@ -1,20 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getStatusThuncCreator, setTextStatusThuncCreator, updateNewMessageTextStatus } from "../../../redux/profileReducer";
+import { getStatusThuncCreator, updateTextStatusThuncCreator } from "../../../redux/profileReducer";
 import s from './ProfileInfo.module.css';
 
 class ProfileStatus extends React.Component {
-	constructor(props) {
-		super(props);
-		this.newStatusElement = React.createRef();
-	}
-	componentDidMount() {
-		this.props.getStatusThuncCreator(this.props.id)
-		console.log('я вмонтирована');
+	
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.statusText !== this.props.statusText) {
+			this.setState({
+				status: this.props.statusText
+			})
+		}
 	}
 	state = {
-		editMode: false
+		editMode: false,
+		status: this.props.statusText//берет из state
 	}
 
 	activateEditMode = () => {
@@ -27,14 +28,14 @@ class ProfileStatus extends React.Component {
 		this.setState({
 			editMode: false
 		});
-		this.props.setTextStatusThuncCreator(this.props.statusText);
+		this.props.updateTextStatusThuncCreator(this.state.status);
 	}
 
-	updateStatusText = () => {
-		let text = this.newStatusElement.current.value;
-		this.props.updateNewMessageTextStatus(text);
+	onStatusChange = (e) => {
+		this.setState({
+			status: e.currentTarget.value
+		})
 	}
-
 	render () {
 		return (
 			<div>
@@ -45,7 +46,7 @@ class ProfileStatus extends React.Component {
 				}
 				{this.state.editMode &&
 					<div>
-						<input ref={this.newStatusElement} onChange={this.updateStatusText} autoFocus={true} onBlur={this.deactivateEditMode} value={this.props.statusText} />
+						<input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateEditMode} value={this.state.status} />
 					</div>
 				}
 			</div>
@@ -56,11 +57,10 @@ class ProfileStatus extends React.Component {
 const mapStateToProps = (state) => {
 	return ({
 		statusText: state.profilePage.newStatusText,
-		id: state.profilePage.profile.userId
 	})
 }
 
 export default compose(
-	connect(mapStateToProps, { updateNewMessageTextStatus, setTextStatusThuncCreator, getStatusThuncCreator } ),
+	connect(mapStateToProps, {updateTextStatusThuncCreator } ),
 
 )(ProfileStatus);

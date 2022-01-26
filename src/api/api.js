@@ -21,51 +21,42 @@ export  const usersAPI = {//вспомагательный объект кото
 				return response.data;//возвращаем только data(инкапсулируем)
 			})
 	},
+	
+	setFollow(id) {
+		return instance.delete(`follow/${id}`)
+	},
+	setUnfollow(id) {
+		return instance.post(`follow/${id}`)
+	},
+	
+}
+
+export const profileAPI = {
 	getUserProfile(userId) {
 		return instance.get(`profile/${userId}`)
 			.then(response => {
 				return response.data;//возвращаем только data(инкапсулируем)
 			})
 	},
-	setFollow(id) {
-		return instance.delete(`follow/${id}`)
-			.then(response => {
-				return response.data;//возвращаем только data(инкапсулируем)
-			})
-	},
-	setUnfollow(id) {
-		return instance.post(`follow/${id}`)
-			.then(response => {
-				return response.data;//возвращаем только data(инкапсулируем)
-			})
-	},
-	setStatus(newStatusText) {
-		return instance.put(`profile/status`, { status: newStatusText });
-	},
 	getStatus(id) {
 		return instance.get(`profile/status/${id}`)
 			.then(response => {
 				return response.data;//возвращаем только data(инкапсулируем)
 			})
-	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-const getUsers = (currentPage, pageSize) => {
-	return instance.get(`users?page=${currentPage}&count=${pageSize}`, {
-		withCredentials: true
-	})
+	},
+	updateStatus(newStatusText) {
+		return instance.put(`profile/status`, { status: newStatusText })
 		.then(response => {
 			return response.data;//возвращаем только data(инкапсулируем)
 		})
+	},
 }
+
+
+
+
+
+
+
+
+

@@ -5,3 +5,8 @@
 .messageBlock {
 	padding-top: 20px;
 }
+
+.error {
+	border:solid 2px red;
+	box-shadow: 2px 2px 2px red;
+}

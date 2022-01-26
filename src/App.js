@@ -1,5 +1,5 @@
+import "antd/dist/antd.css";
 import './App.css';
-import Dialogs from './components/Dialogs/Dialogs';
 import Navbar from './components/Navbar/Navbar';
 import Settings from './components/Settings/Settings';
 import News from './components/News/News';

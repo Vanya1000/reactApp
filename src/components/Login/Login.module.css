@@ -1,0 +1,21 @@
+.formBlock {
+width: 300px;
+margin: 0 auto;
+	
+}
+.formBlock div{
+	margin-bottom: 10px;
+	
+}
+.title {
+	display: flex;
+	justify-content: center;
+	
+}
+
+
+
+.error {
+	border:solid 1px red;
+	box-shadow: 1px 1px 1px  red;
+} 

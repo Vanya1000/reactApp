@@ -3,7 +3,7 @@ import s from './Profile.module.css';
 import Profile from "./Profile";
 import * as axios from 'axios';
 import { connect } from "react-redux";
-import { getUserProfileThunkCreator, setUserProfile } from "../../redux/profileReducer";
+import { getStatusThuncCreator, getUserProfileThunkCreator, setUserProfile } from "../../redux/profileReducer";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import { usersAPI } from "../../api/api";
 import { Redirect } from "react-router-dom";
@@ -19,6 +19,8 @@ class ProfileContainer extends React.Component {
 			userId = 21887;
 		} 
 		this.props.getUserProfileThunkCreator(userId)
+		this.props.getStatusThuncCreator(userId)
+		
 	}
 	render () {
 		return (
@@ -40,7 +42,7 @@ const mapStateToProps = (state) => {
 //export default connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator })(WithUrlDataContainerComponent);
 
 export default compose(
-	connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator }),
+	connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator, getStatusThuncCreator }),
 	withRouter,
 	withAuthRedirect,
 )(ProfileContainer)
