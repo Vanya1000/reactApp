@@ -13,7 +13,6 @@ const Loginform = (props) => {
 		props.onSubmit(formData);
 		reset();
 	}
-	const errorClass = errors?.password || props.isWrong && s.error;
 	return (
 		<div className={s.formBlock}>
 			<form onSubmit={handleSubmit(onSubmit)}>
@@ -30,7 +29,7 @@ const Loginform = (props) => {
 								value={value}
 								onChange={onChange}
 								placeholder="login"
-								className={errorClass}
+								className={(errors?.email || props.isWrong) && s.error}
 							/>
 						)}
 					/>
@@ -39,13 +38,13 @@ const Loginform = (props) => {
 					<Controller
 						name="password"
 						control={control}
-						rules={{ required: 'First name required' }}
+						rules={{ required: true }}
 						render={({ field: { onChange, value } }) => (
 							<Input.Password
 								value={value}
 								onChange={onChange}
 								placeholder="password"
-								className={errorClass}
+								className={(errors?.password || props.isWrong) && s.error}
 							/>
 						)}
 					/>

@@ -35,7 +35,7 @@ export const setErrorWrong = (isWrong) =>
 
 export const getAuthUserData = () => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
 	return (dispatch) => {
-		authAPI.checksLogin().then(data => {
+		return authAPI.checksLogin().then(data => {//dispatch умеет возвращать если пишем return, то промис вернется наружу
 			let {id, login, email} = data.data
 			if (data.resultCode === 0) {
 				dispatch(setAuthUserData(id, login, email, true));

@@ -54,7 +54,7 @@ export default compose(
 		getUsers: getUsersThunkCreator,
 		getUsersOnPagechangedThunkCreator
 	}),
-		withAuthRedirect
+		//withAuthRedirect
 )(UsersContainer)
 
 

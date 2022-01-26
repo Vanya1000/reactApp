@@ -1,12 +1,8 @@
 import React from "react";
-import s from './Profile.module.css';
 import Profile from "./Profile";
-import * as axios from 'axios';
 import { connect } from "react-redux";
 import { getStatusThuncCreator, getUserProfileThunkCreator, setUserProfile } from "../../redux/profileReducer";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
-import { usersAPI } from "../../api/api";
-import { Redirect } from "react-router-dom";
 import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 import { compose } from "redux";
 
