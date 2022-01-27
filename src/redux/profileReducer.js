@@ -75,6 +75,4 @@ export const updateTextStatusThuncCreator = (newStatusText) => {
 	}
 }
 
-
-
 export default profileReducer;

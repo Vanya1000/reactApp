@@ -1,11 +1,30 @@
 import Preloader from '../../common/Preloader/Preloader';
 import s from './ProfileInfo.module.css';
 import ProfileStatus from './ProfileStatus';
+import * as axios from 'axios';
 
 const ProfileInfo = (props) => {
 	if (!props.profile) {
 		return <Preloader />
 	}
+
+	const onMainPhotoSelected = (e) => {
+		if (e.target.files.length) {
+			savePhoto(e.target.files[0]);
+		}
+	}
+	let savePhoto = (photoFile) => {
+		const formData = new FormData();
+		formData.append('image', photoFile)
+		axios.put(`profile/photo`, formData, {
+			withCredentials: true,
+			baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+			headers: {
+				"API-KEY": "70e8e5ed-ff03-4d7b-b77d-74a34aff6348"
+			},
+			'Content-Type': 'multipart/form-data'
+		})
+	} 
 	return (
 		<div>
 			{/* <div className={s.image}>
@@ -15,6 +34,7 @@ const ProfileInfo = (props) => {
 				<div>
 					<img src={props.profile.photos.large} alt="avatar" />
 				</div>
+				<input type="file" onChange={onMainPhotoSelected} />
 				<ProfileStatus />
 				<div>
 					<h1>{props.profile.fullName}</h1>

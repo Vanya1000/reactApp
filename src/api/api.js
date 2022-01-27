@@ -1,5 +1,6 @@
 import * as axios from 'axios';
 
+
 const instance = axios.create({
 	withCredentials: true,
 	baseURL:'https://social-network.samuraijs.com/api/1.0/',
@@ -42,7 +43,7 @@ export const profileAPI = {
 		.then(response => {
 			return response.data;//возвращаем только data(инкапсулируем)
 		})
-	},
+	}
 }
 
 
