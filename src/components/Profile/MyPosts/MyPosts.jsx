@@ -1,12 +1,11 @@
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import React from 'react';
+import React, { memo } from 'react';
 import { useForm } from "react-hook-form";
 
 
-
-const MyPosts = (props) => {
-
+const MyPosts = React.memo(props => {
+	console.log('RENDER')
 	let postsElement = props.posts.map(p => <Post message={p.message} key={p.id} likesCount={p.likesCount} />)
 
 	return (
@@ -24,7 +23,7 @@ const MyPosts = (props) => {
 			</div>
 		</div>
 	)
-}
+})
 
 const AddPostForm = (props) => {
 	const { register, handleSubmit, reset, formState: { errors } } = useForm({mode: 'onBlur'});

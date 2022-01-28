@@ -3,6 +3,7 @@ import { profileAPI} from "../api/api";
 const ADD_POST = 'ADD-POST'; {/*action type*/ } {/*используем вместо строк что бы не опечататься*/ }
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS_TEXT = 'SET_STATUS_TEXT';
+const DELETE_POST = 'DELETE_POST';
 
 let initialState = {
 	posts: [
@@ -31,6 +32,12 @@ const profileReducer = (state = initialState, action) => {
 			return {
 				...state,
 				newStatusText: action.statusText
+			};
+		}
+		case DELETE_POST: {
+			return {
+				...state,
+				posts: state.posts.filter(p => p.id != action.postId)
 			};
 		}
 		default:
@@ -74,5 +81,8 @@ export const updateTextStatusThuncCreator = (newStatusText) => {
 		})
 	}
 }
+
+export const deletePost = (postId) =>
+	({ type: DELETE_POST, postId });
 
 export default profileReducer;

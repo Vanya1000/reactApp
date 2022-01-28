@@ -2,6 +2,7 @@ import Preloader from '../../common/Preloader/Preloader';
 import s from './ProfileInfo.module.css';
 import ProfileStatus from './ProfileStatus';
 import * as axios from 'axios';
+import ProfileStatusWithHoocs from './ProfileStatusWithHoocs';
 
 const ProfileInfo = (props) => {
 	if (!props.profile) {
@@ -35,7 +36,7 @@ const ProfileInfo = (props) => {
 					<img src={props.profile.photos.large} alt="avatar" />
 				</div>
 				<input type="file" onChange={onMainPhotoSelected} />
-				<ProfileStatus />
+				<ProfileStatusWithHoocs />
 				<div>
 					<h1>{props.profile.fullName}</h1>
 				</div>

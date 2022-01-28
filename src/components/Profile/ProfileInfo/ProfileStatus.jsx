@@ -5,7 +5,10 @@ import { getStatusThuncCreator, updateTextStatusThuncCreator } from "../../../re
 import s from './ProfileInfo.module.css';
 
 class ProfileStatus extends React.Component {
-	
+	state = {
+		editMode: false,
+		status: this.props.statusText//берет из state
+	}
 	componentDidUpdate(prevProps, prevState) {
 		if (prevProps.statusText !== this.props.statusText) {
 			this.setState({
@@ -13,11 +16,7 @@ class ProfileStatus extends React.Component {
 			})
 		}
 	}
-	state = {
-		editMode: false,
-		status: this.props.statusText//берет из state
-	}
-
+	
 	activateEditMode = () => {
 		this.setState({
 			editMode: true
