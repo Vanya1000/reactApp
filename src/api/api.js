@@ -17,10 +17,10 @@ export  const usersAPI = {//вспомагательный объект кото
 			})
 	},
 	setFollow(id) {
-		return instance.delete(`follow/${id}`)
+		return instance.post(`follow/${id}`)
 	},
 	setUnfollow(id) {
-		return instance.post(`follow/${id}`)
+		return instance.delete(`follow/${id}`)
 	},
 	
 }
@@ -28,21 +28,12 @@ export  const usersAPI = {//вспомагательный объект кото
 export const profileAPI = {
 	getUserProfile(userId) {
 		return instance.get(`profile/${userId}`)
-			.then(response => {
-				return response.data;//возвращаем только data(инкапсулируем)
-			})
 	},
 	getStatus(id) {
 		return instance.get(`profile/status/${id}`)
-			.then(response => {
-				return response.data;//возвращаем только data(инкапсулируем)
-			})
 	},
 	updateStatus(newStatusText) {
 		return instance.put(`profile/status`, { status: newStatusText })
-		.then(response => {
-			return response.data;//возвращаем только data(инкапсулируем)
-		})
 	}
 }
 
@@ -50,21 +41,12 @@ export const profileAPI = {
 export const authAPI = {
 	checksLogin() {
 		return instance.get('auth/me')
-			.then(response => {
-				return response.data;
-			})
 	},
 	login(email, password, rememberMe = false) {
 		return instance.post('auth/login', { email, password, rememberMe})
-			.then(response => {
-				return response.data;//возвращаем только data(инкапсулируем)
-			})
 	},
 	logout() {
 		return instance.delete('auth/login')
-			.then(response => {
-				return response.data;//возвращаем только data(инкапсулируем)
-			})
 	}
 }
 

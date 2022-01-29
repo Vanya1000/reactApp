@@ -1,5 +1,5 @@
 const ADD_NOTE = 'ADD-NOTE';
-const UPDATE_NEW_NOTE_TEXT = 'UPDATE-NEW-NOTE-TEXT'; {/*redux смотрит совпад и анализирует и выполняет action*/ }
+const UPDATE_NEW_NOTE_TEXT = 'note/UPDATE-NEW-NOTE-TEXT'; {/*redux смотрит совпад и анализирует и выполняет action*/ }
 
 let initialState = {
 	note: [

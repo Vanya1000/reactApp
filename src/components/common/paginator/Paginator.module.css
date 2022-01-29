@@ -1,0 +1,14 @@
+.count__wrapper {
+	max-width: 1000px;
+	overflow-x: auto;
+}
+
+.bold {
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.pageNumber {
+	cursor: pointer;
+}
+

@@ -1,6 +1,6 @@
 import { authAPI, usersAPI } from "../api/api";
-const SET_USER_DATA = 'SET_USER_DATA';
-const SET_ERROR_WRONG = 'SET_ERROR_WRONG';
+const SET_USER_DATA = 'auth/SET_USER_DATA';
+const SET_ERROR_WRONG = 'auth/SET_ERROR_WRONG';
 
 let initialState = {
 	id: null,
@@ -28,42 +28,35 @@ const authReducer = (state = initialState, action) => {
 }
 
 export const setAuthUserData = (id, login, email, isAuth) =>
-	({ type: SET_USER_DATA, payload: { id, login, email, isAuth} });
+	({ type: SET_USER_DATA, payload: { id, login, email, isAuth } });
 
 export const setErrorWrong = (isWrong) =>
-	({ type: SET_ERROR_WRONG , data: isWrong});
+	({ type: SET_ERROR_WRONG, data: isWrong });
 
-export const getAuthUserData = () => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
-	return (dispatch) => {
-		return authAPI.checksLogin().then(data => {//dispatch умеет возвращать если пишем return, то промис вернется наружу
-			let {id, login, email} = data.data
-			if (data.resultCode === 0) {
-				dispatch(setAuthUserData(id, login, email, true));
-			}
-		})
+export const getAuthUserData = () => async (dispatch) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
+	let response = await authAPI.checksLogin();// дожидаемся именно промиса В респонсе будет сидеть результат которым зарезолвится промис 
+	if (response.data.resultCode === 0) {
+		let { id, login, email } = response.data.data
+		dispatch(setAuthUserData(id, login, email, true));
 	}
 }
 
-export const loginTC = (email, password, rememberMe) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
-	return (dispatch) => {
-		authAPI.login(email, password, rememberMe).then(data => {
-			if (data.resultCode === 0) {
-				dispatch(getAuthUserData());
-				dispatch(setErrorWrong(false));
-			} else {
-				dispatch(setErrorWrong(true));
-			}
-		})
+
+export const loginTC = (email, password, rememberMe) => async (dispatch) => {
+	let response = await authAPI.login(email, password, rememberMe);
+	if (response.data.resultCode === 0) {
+		dispatch(getAuthUserData());
+		dispatch(setErrorWrong(false));
+	} else {
+		dispatch(setErrorWrong(true));
 	}
 }
 
-export const logout = () => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
-	return (dispatch) => {
-		authAPI.logout().then(data => {
-			if (data.resultCode === 0) {
-				dispatch(setAuthUserData(null, null, null, false));
-			}
-		})
+
+export const logout = () => async (dispatch) => {
+	let response = await authAPI.logout()
+	if (response.data.resultCode === 0) {
+		dispatch(setAuthUserData(null, null, null, false));
 	}
 }
 

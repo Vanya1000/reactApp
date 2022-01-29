@@ -1,16 +1,15 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
-import { UserOutlined } from '@ant-design/icons';
 import s from './Login.module.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { connect } from "react-redux";
 import { loginTC } from "../../redux/auth-reducer";
 import { Redirect } from "react-router-dom";
 
-const Loginform = (props) => {
+const Loginform = ({ isWrong, onSubmitCall}) => {
 	const { control, register, handleSubmit, reset, formState: { errors } } = useForm();
 	const onSubmit = (formData) => {
-		props.onSubmit(formData);
+		onSubmitCall(formData);
 		reset();
 	}
 	return (
@@ -18,7 +17,7 @@ const Loginform = (props) => {
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div>
 					<div>
-						{props.isWrong && <p>login/password incorrect</p>}
+						{isWrong && <p>login/password incorrect</p>}
 					</div>
 					<Controller
 						name="email"
@@ -29,7 +28,7 @@ const Loginform = (props) => {
 								value={value}
 								onChange={onChange}
 								placeholder="login"
-								className={(errors?.email || props.isWrong) && s.error}
+								className={(errors?.email || isWrong) && s.error}
 							/>
 						)}
 					/>
@@ -44,7 +43,7 @@ const Loginform = (props) => {
 								value={value}
 								onChange={onChange}
 								placeholder="password"
-								className={(errors?.password || props.isWrong) && s.error}
+								className={(errors?.password || isWrong) && s.error}
 							/>
 						)}
 					/>
@@ -75,7 +74,7 @@ const Loginform = (props) => {
 
 
 const Login = (props) => {
-	const onSubmit = formData => {
+	const onSubmitCall = formData => {
 		props.loginTC(formData.email, formData.password, formData.rememberMe);
 	}
 	if (props.isAuth) {
@@ -83,7 +82,7 @@ const Login = (props) => {
 	}
 	return <div>
 		<h1 className={s.title}>Login</h1>
-		<Loginform isWrong={props.isWrong} onSubmit={onSubmit} />
+		<Loginform isWrong={props.isWrong} onSubmitCall={onSubmitCall} />
 	</div>
 }
 const mapStateToProps= (state) => ({

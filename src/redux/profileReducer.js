@@ -1,9 +1,9 @@
-import { profileAPI} from "../api/api";
+import { profileAPI } from "../api/api";
 
-const ADD_POST = 'ADD-POST'; {/*action type*/ } {/*используем вместо строк что бы не опечататься*/ }
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
-const SET_STATUS_TEXT = 'SET_STATUS_TEXT';
-const DELETE_POST = 'DELETE_POST';
+const ADD_POST = 'profile/ADD-POST'; {/*action type*/ } {/*используем вместо строк что бы не опечататься*/ }
+const SET_USER_PROFILE = 'profile/SET_USER_PROFILE';
+const SET_STATUS_TEXT = 'profile/SET_STATUS_TEXT';
+const DELETE_POST = 'profile/DELETE_POST';
 
 let initialState = {
 	posts: [
@@ -15,9 +15,9 @@ let initialState = {
 };
 
 const profileReducer = (state = initialState, action) => {
-	switch(action.type) {
+	switch (action.type) {
 		case ADD_POST: {
-			return { 
+			return {
 				...state,
 				posts: [...state.posts, { id: 5, message: action.newPost, likesCount: 0 }],
 			};
@@ -45,42 +45,33 @@ const profileReducer = (state = initialState, action) => {
 	}
 }
 
-export const addPost = (post) => 
+export const addPost = (post) =>
 	({ type: ADD_POST, newPost: post });
-	
+
 export const setUserProfile = (profile) =>
 	({ type: SET_USER_PROFILE, profile });
 
 
-export const getUserProfileThunkCreator = (userId) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
-	return (dispatch) => {
-		profileAPI.getUserProfile(userId).then(data => {
-			dispatch(setUserProfile(data));
-		})
-	}
+export const getUserProfileThunkCreator = (userId) => async (dispatch) => { //для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
+	let response = await profileAPI.getUserProfile(userId);
+	dispatch(setUserProfile(response.data));
 }
 
 export const setNewMessageTextStatus = (statusText) =>
 	({ type: SET_STATUS_TEXT, statusText: statusText });
 
-export const getStatusThuncCreator = (id) => {
-	return (dispatch) => {
-		profileAPI.getStatus(id).then(data => {
-			dispatch(setNewMessageTextStatus(data));
-		})
+export const getStatusThuncCreator = (id) => async (dispatch) => {
+	let response = await profileAPI.getStatus(id);
+	dispatch(setNewMessageTextStatus(response.data));
+}
+
+export const updateTextStatusThuncCreator = (newStatusText) => async (dispatch) => {
+	let response = await profileAPI.updateStatus(newStatusText);
+	if (response.data.resultCode === 0) {
+		dispatch(setNewMessageTextStatus(newStatusText));
 	}
 }
 
-export const updateTextStatusThuncCreator = (newStatusText) => {
-	return (dispatch) => {
-		profileAPI.updateStatus(newStatusText)
-		.then(data => {
-			if (data.resultCode === 0) {
-				dispatch(setNewMessageTextStatus(newStatusText));
-			}
-		})
-	}
-}
 
 export const deletePost = (postId) =>
 	({ type: DELETE_POST, postId });
