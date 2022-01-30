@@ -4,6 +4,7 @@ const ADD_POST = 'profile/ADD-POST'; {/*action type*/ } {/*используем 
 const SET_USER_PROFILE = 'profile/SET_USER_PROFILE';
 const SET_STATUS_TEXT = 'profile/SET_STATUS_TEXT';
 const DELETE_POST = 'profile/DELETE_POST';
+const SAVE_PHOTO_SUCCESS = 'profile/SAVE_PHOTO_SUCCESS';
 
 let initialState = {
 	posts: [
@@ -34,6 +35,12 @@ const profileReducer = (state = initialState, action) => {
 				newStatusText: action.statusText
 			};
 		}
+		case SAVE_PHOTO_SUCCESS: {
+			return {
+				...state,
+				profile: {...state.profile, photos: action.photos}
+			};
+		}
 		case DELETE_POST: {
 			return {
 				...state,
@@ -51,6 +58,8 @@ export const addPost = (post) =>
 export const setUserProfile = (profile) =>
 	({ type: SET_USER_PROFILE, profile });
 
+export const savePhotoSuccess = (photos) =>
+	({ type: SAVE_PHOTO_SUCCESS, photos });
 
 export const getUserProfileThunkCreator = (userId) => async (dispatch) => { //для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
 	let response = await profileAPI.getUserProfile(userId);
@@ -72,6 +81,12 @@ export const updateTextStatusThuncCreator = (newStatusText) => async (dispatch) 
 	}
 }
 
+export const savePhoto = (file) => async (dispatch) => {
+	let response = await profileAPI.savePhoto(file);
+	if (response.data.resultCode === 0) {
+		dispatch(savePhotoSuccess(response.data.data.photos));
+	}
+}
 
 export const deletePost = (postId) =>
 	({ type: DELETE_POST, postId });

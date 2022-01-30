@@ -11,10 +11,10 @@ const ProfileInfo = (props) => {
 
 	const onMainPhotoSelected = (e) => {
 		if (e.target.files.length) {
-			savePhoto(e.target.files[0]);
+			props.savePhoto(e.target.files[0]);
 		}
 	}
-	let savePhoto = (photoFile) => {
+/* 	let savePhoto = (photoFile) => {
 		const formData = new FormData();
 		formData.append('image', photoFile)
 		axios.put(`profile/photo`, formData, {
@@ -25,7 +25,7 @@ const ProfileInfo = (props) => {
 			},
 			'Content-Type': 'multipart/form-data'
 		})
-	} 
+	}  */
 	return (
 		<div>
 			{/* <div className={s.image}>
@@ -66,3 +66,16 @@ const ProfileInfo = (props) => {
 	)
 }
 export default ProfileInfo;
+
+/* let savePhoto = (photoFile) => {
+	const formData = new FormData();
+	formData.append('image', photoFile)
+	axios.put(`profile/photo`, formData, {
+		withCredentials: true,
+		baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+		headers: {
+			"API-KEY": "70e8e5ed-ff03-4d7b-b77d-74a34aff6348"
+		},
+		'Content-Type': 'multipart/form-data'
+	})
+}  */

@@ -1,7 +1,7 @@
 import React from "react";
 import Profile from "./Profile";
 import { connect } from "react-redux";
-import { getStatusThuncCreator, getUserProfileThunkCreator, setUserProfile } from "../../redux/profileReducer";
+import { getStatusThuncCreator, getUserProfileThunkCreator, savePhoto, setUserProfile } from "../../redux/profileReducer";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 import { compose } from "redux";
@@ -29,7 +29,7 @@ class ProfileContainer extends React.Component {
 	}
 	render () {
 		return (
-			<Profile isOwner={!this.props.match.params.userId} {...this.props} profile={this.props.profile}/>
+			<Profile isOwner={!this.props.match.params.userId} {...this.props} profile={this.props.profile} savePhoto={this.props.savePhoto}/>
 		)
 	}
 }
@@ -49,7 +49,7 @@ const mapStateToProps = (state) => {
 //export default connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator })(WithUrlDataContainerComponent);
 
 export default compose(
-	connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator, getStatusThuncCreator }),
+	connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator, getStatusThuncCreator, savePhoto }),
 	withRouter,
 	withAuthRedirect,
 )(ProfileContainer)
