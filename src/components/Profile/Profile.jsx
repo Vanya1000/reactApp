@@ -8,7 +8,7 @@ import MyPostsContainer from './MyPosts/MyPostsContainer';
 const Profile = (props) => {
 	return (
 		<div className={s.pad}>
-			<ProfileInfo profile={props.profile} />
+			<ProfileInfo isOwner={props.isOwner} profile={props.profile} />
 			<MyPostsContainer />
 		</div>
 	)

@@ -9,18 +9,27 @@ import { compose } from "redux";
 
 
 class ProfileContainer extends React.Component {
-	componentDidMount() {
-	let userId = this.props.match.params.userId;
+	refreshProfile() {
+		let userId = this.props.match.params.userId;
 		if (!userId) {
 			userId = this.props.userId;
-		} 
+		}
 		this.props.getUserProfileThunkCreator(userId)
 		this.props.getStatusThuncCreator(userId)
+	}
+
+	componentDidMount() {
+		this.refreshProfile();
+	}
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if (this.props.match.params.userId != prevProps.match.params.userId) {//только если предыдущ пропсы не равны
+			this.refreshProfile();
+		}
 		
 	}
 	render () {
 		return (
-			<Profile {...this.props} profile={this.props.profile}/>
+			<Profile isOwner={!this.props.match.params.userId} {...this.props} profile={this.props.profile}/>
 		)
 	}
 }

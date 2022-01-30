@@ -1,8 +1,8 @@
 import Preloader from '../../common/Preloader/Preloader';
 import s from './ProfileInfo.module.css';
-import ProfileStatus from './ProfileStatus';
 import * as axios from 'axios';
 import ProfileStatusWithHoocs from './ProfileStatusWithHoocs';
+import userPhoto from '../../../assets/images/user.png';
 
 const ProfileInfo = (props) => {
 	if (!props.profile) {
@@ -33,9 +33,9 @@ const ProfileInfo = (props) => {
 			</div> */}
 			<div className={s.discriptionBlock}>
 				<div>
-					<img src={props.profile.photos.large} alt="avatar" />
+					<img src={props.profile.photos.large || userPhoto} alt="avatar" />
 				</div>
-				<input type="file" onChange={onMainPhotoSelected} />
+				{props.isOwner && <input type="file" onChange={onMainPhotoSelected} />}
 				<ProfileStatusWithHoocs />
 				<div>
 					<h1>{props.profile.fullName}</h1>
