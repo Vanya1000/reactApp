@@ -11,7 +11,7 @@ const TOGGLE_IS_FOLLOWING_PROGRESS = 'users/TOGGLE_IS_FOLLOWING_PROGRESS';
 
 let initialState = {
 	users: [],
-	pageSize: 100,
+	pageSize: 10,
 	totalUserCount: 1,
 	currentPage: 1,
 	isFetching: true,
@@ -81,6 +81,14 @@ export const getUsersThunkCreator = (currentPage, pageSize) => async (dispatch) 
 	dispatch(toggleIsFetching(false));
 	dispatch(setUsers(data.items));
 	dispatch(setCountAllUsers(data.totalCount));
+}
+
+export const getUsersOnPageSize = (pageNumber, pageSize) => async (dispatch) => {
+	dispatch(setPageSize(pageSize));
+	dispatch(toggleIsFetching(true));
+	let data = await usersAPI.getUsers(pageNumber, pageSize);
+	dispatch(setUsers(data.items));
+	dispatch(toggleIsFetching(false));
 }
 
 export const getUsersOnPagechangedThunkCreator = (pageNumber, pageSize) => async (dispatch) => {

@@ -8,13 +8,10 @@ let Users = ({ totalUserCount, pageSize, currentPage, onPageChanged, setPageSize
 	function onChange(pageNumber) {
 		onPageChanged(pageNumber)
 	}
-	function onChange1(current, size) {
-		setPageSize(size);
-	}
 	return (
 		<div>
-			<Paginator totalUserCount={totalUserCount} pageSize={pageSize} currentPage={currentPage} onPageChanged={onPageChanged} />
-			<Pagination showQuickJumper defaultCurrent={1} total={totalUserCount} defaultPageSize={pageSize} onChange={onChange} onShowSizeChange={onChange1}/>
+			{/* <Paginator totalUserCount={totalUserCount} pageSize={pageSize} currentPage={currentPage} onPageChanged={onPageChanged} /> */}
+			<Pagination showQuickJumper defaultCurrent={1} total={totalUserCount} defaultPageSize={pageSize} onChange={onChange} onShowSizeChange={props.onPageSizeChange}/>
 			{
 				props.users.map((u) => <User
 					user={u}

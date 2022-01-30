@@ -21,7 +21,7 @@ const dialogsReducer = (state = initialState, action) => {
 		case ADD_MESSAGE:
 			return {
 				...state,
-				messages: [...state.messages, { id: 5, message: action.newMessage}]
+				messages: [...state.messages, { id: 5, message: action.newMessage }]
 			}
 		default:
 			return state;
@@ -33,3 +33,5 @@ export const addMessageActionCreator = (message) =>
 
 
 export default dialogsReducer;
+
+

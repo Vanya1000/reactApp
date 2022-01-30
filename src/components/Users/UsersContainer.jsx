@@ -1,7 +1,7 @@
 import Users from "./Users";
 import React from "react";
 import { connect } from "react-redux";
-import { follow, setCurrentPage, unfollow, toggleFollowingProgress, getUsersThunkCreator, getUsersOnPagechangedThunkCreator, setPageSize } from "../../redux/usersReducer";
+import { follow, setCurrentPage, unfollow, toggleFollowingProgress, getUsersThunkCreator, getUsersOnPagechangedThunkCreator, setPageSize, getUsersOnPageSize } from "../../redux/usersReducer";
 import Preloader from '../common/Preloader/Preloader';
 import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 import { compose } from "redux";
@@ -16,7 +16,12 @@ class UsersContainer extends React.Component {
 
 	onPageChanged = (pageNumber) => {
 		this.props.getUsersOnPagechangedThunkCreator(pageNumber, this.props.pageSize)
+		
 	}
+
+	onPageSizeChange = (current, size) => {
+		this.props.getUsersOnPageSize(this.props.currentPage, size)
+}
 
 	render() {
 		return <>
@@ -30,7 +35,7 @@ class UsersContainer extends React.Component {
 				follow={this.props.follow}
 				unfollow={this.props.unfollow}
 				followingInProgress={this.props.followingInProgress}
-				setPageSize={this.props.setPageSize}
+				onPageSizeChange={this.onPageSizeChange}
 			/>
 		</>
 	}
@@ -55,7 +60,8 @@ export default compose(
 		toggleFollowingProgress,
 		getUsers: getUsersThunkCreator,
 		getUsersOnPagechangedThunkCreator,
-		setPageSize
+		setPageSize,
+		getUsersOnPageSize
 	}),
 		//withAuthRedirect
 )(UsersContainer)
