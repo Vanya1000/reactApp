@@ -1,7 +1,7 @@
 import React from "react";
 import Profile from "./Profile";
 import { connect } from "react-redux";
-import { getStatusThuncCreator, getUserProfileThunkCreator, savePhoto, setUserProfile } from "../../redux/profileReducer";
+import { getStatusThuncCreator, getUserProfileThunkCreator, savePhoto, saveProfile, setUserProfile } from "../../redux/profileReducer";
 import { withRouter } from "react-router-dom/cjs/react-router-dom.min";
 import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 import { compose } from "redux";
@@ -49,7 +49,7 @@ const mapStateToProps = (state) => {
 //export default connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator })(WithUrlDataContainerComponent);
 
 export default compose(
-	connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator, getStatusThuncCreator, savePhoto }),
+	connect(mapStateToProps, { setUserProfile, getUserProfileThunkCreator, getStatusThuncCreator, savePhoto, saveProfile }),
 	withRouter,
 	withAuthRedirect,
 )(ProfileContainer)

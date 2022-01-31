@@ -88,6 +88,16 @@ export const savePhoto = (file) => async (dispatch) => {
 	}
 }
 
+export const saveProfile = (profile) => async (dispatch, getState) => {//?берем из стейта то, что нам нужно. Не запрещено
+	const userId = getState().auth.id;
+	let response = await profileAPI.saveProfile(profile);
+	if (response.data.resultCode === 0) {
+		dispatch(getUserProfileThunkCreator(userId))
+	} else {
+		//dispatch(setErrorWrong(true));//! Нужно реализовать отображение ошибки!
+	}
+}
+
 export const deletePost = (postId) =>
 	({ type: DELETE_POST, postId });
 
