@@ -1,6 +1,7 @@
-import { authAPI, usersAPI } from "../api/api";
+import { authAPI, securityAPI, usersAPI } from "../api/api";
 const SET_USER_DATA = 'auth/SET_USER_DATA';
 const SET_ERROR_WRONG = 'auth/SET_ERROR_WRONG';
+const GET_CHAPTCHA_URL_SUCCESS = 'auth/GET_CHAPTCHA_URL_SUCCESS';
 
 let initialState = {
 	id: null,
@@ -8,6 +9,7 @@ let initialState = {
 	email: null,
 	isAuth: false,
 	isWrong: null,
+	captchaUrl: null
 };
 
 const authReducer = (state = initialState, action) => {
@@ -22,6 +24,11 @@ const authReducer = (state = initialState, action) => {
 				...state,
 				isWrong: action.data
 			}
+		case GET_CHAPTCHA_URL_SUCCESS:
+			return {
+				...state,
+				captchaUrl: action.payload
+			}
 		default:
 			return state;
 	}
@@ -29,6 +36,9 @@ const authReducer = (state = initialState, action) => {
 
 export const setAuthUserData = (id, login, email, isAuth) =>
 	({ type: SET_USER_DATA, payload: { id, login, email, isAuth } });
+
+export const getCaptchaUrlSuccess = (captchaUrl) =>
+	({ type: GET_CHAPTCHA_URL_SUCCESS, payload: captchaUrl });
 
 export const setErrorWrong = (isWrong) =>
 	({ type: SET_ERROR_WRONG, data: isWrong });
@@ -42,16 +52,24 @@ export const getAuthUserData = () => async (dispatch) => {//для замыка�
 }
 
 
-export const loginTC = (email, password, rememberMe) => async (dispatch) => {
-	let response = await authAPI.login(email, password, rememberMe);
+export const loginTC = (email, password, rememberMe, captcha) => async (dispatch) => {
+	let response = await authAPI.login(email, password, rememberMe, captcha);
 	if (response.data.resultCode === 0) {
 		dispatch(getAuthUserData());
 		dispatch(setErrorWrong(false));
-	} else {
+	} else if (response.data.resultCode === 10) {
+		dispatch(getCaptchaUrl());
+	}
+	else {
 		dispatch(setErrorWrong(true));
 	}
 }
 
+export const getCaptchaUrl = () => async (dispatch) => {
+	let response = await securityAPI.getCaptcha();
+	const captchaUrl = response.data.url;
+	dispatch(getCaptchaUrlSuccess(captchaUrl));
+}
 
 export const logout = () => async (dispatch) => {
 	let response = await authAPI.logout()

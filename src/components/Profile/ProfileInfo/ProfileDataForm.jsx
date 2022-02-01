@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 const ProfileDataForm = (props) => {
 	const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
 	const onSubmit = data => {
-		console.log(data);
 		props.saveProfile(data);
 		props.goToExitEditMode();
 	}
