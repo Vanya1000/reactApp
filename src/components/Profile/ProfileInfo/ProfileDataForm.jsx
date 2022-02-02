@@ -26,9 +26,9 @@ const ProfileDataForm = (props) => {
 				<input type="text" {...register("aboutMe")} />
 			</div>
 			<div>
-				<p>Contacts:{Object.keys(props.profile.contacts).map(key => {
-					return <p>{key}: <input type="text" {...register(`contacts.${key}`)} /></p>
-				})}</p>
+				<div>Contacts:{Object.keys(props.profile.contacts).map(item => {
+					return <p key={item}>{item}: <input type="text" {...register(`contacts.${item}`)} /></p>
+				})}</div>
 				
 			</div>
 			<div>

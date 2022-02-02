@@ -1,11 +1,13 @@
 import React from "react";
 import s from './News.module.css';
+import Test from "./test";
 
 const News = () => {
 	return (
 		<div>
-			News
+			<Test/>
 		</div>
 	)
 }
+
 export default News;
