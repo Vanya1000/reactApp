@@ -71,6 +71,7 @@ class ProductTable extends React.Component {
 					</tr>
 				</thead>
 				<tbody>{rows}</tbody>
+				{this.props.children}
 			</table>
 		);
 	}
@@ -92,6 +93,7 @@ class SearchBar extends React.Component {
 	}
 
 	render() {
+		console.log(this.props.children);
 		console.log(this.props);
 		return (
 			<form>
