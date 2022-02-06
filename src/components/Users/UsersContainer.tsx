@@ -6,20 +6,35 @@ import Preloader from '../common/Preloader/Preloader';
 import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 import { compose } from "redux";
 import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize, getTotalUserCount, getUsersSuper } from "../../redux/users-selectors";
+import { UsersType } from "../../types/types";
+import { AppStateType } from "../../redux/redux-store";
 
+type PropsType = {
+	currentPage: number
+	pageSize: number
+	getUsers: (currentPage: number, pageSize: number) => void
+	getUsersOnPagechangedThunkCreator: (pageNumber: number, pageSize: number) => void
+	getUsersOnPageSize: (currentPage: number, size: number) => void
+	isFetching: boolean
+	totalUserCount: number
+	users: Array<UsersType>
+	unfollow: (userId: number) => void
+	follow: (userId: number) => void
+	followingInProgress: boolean
+}
 
-class UsersContainer extends React.Component {
+class UsersContainer extends React.Component<PropsType> {
 
 	componentDidMount() {
 		this.props.getUsers(this.props.currentPage, this.props.pageSize)
 	}
 
-	onPageChanged = (pageNumber) => {
+	onPageChanged = (pageNumber: number) => {
 		this.props.getUsersOnPagechangedThunkCreator(pageNumber, this.props.pageSize)
 		
 	}
 
-	onPageSizeChange = (current, size) => {
+	onPageSizeChange = (current: number, size: number) => {
 		this.props.getUsersOnPageSize(this.props.currentPage, size)
 }
 
@@ -41,7 +56,7 @@ class UsersContainer extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType) => {
 	return ({
 		users: getUsersSuper(state),// Super в назв просто для примера
 		pageSize: getPageSize(state),

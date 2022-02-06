@@ -5,10 +5,10 @@ import authReducer from "./auth-reducer";
 import dialogsReducer from "./dialogsReducer";
 import noteReducer from "./noteReducer";
 import profileReducer from "./profileReducer";
-import sidebarReducer from "./sidebarReducer.ts";
+import sidebarReducer from "./sidebarReducer";
 import usersReducer from "./usersReducer";
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
 	profilePage: profileReducer,
 	dialogsPage: dialogsReducer,
 	sidebar: sidebarReducer,
@@ -17,6 +17,11 @@ let reducers = combineReducers({
 	app: appReducer,
 	auth: authReducer,
 });
+
+type RootReducerType = typeof rootReducer;
+export type AppStateType = ReturnType<RootReducerType> // спец команда TS
+
+// @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-let store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)));
+let store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
 export default store;
