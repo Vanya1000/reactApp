@@ -1,6 +1,6 @@
 import { authAPI, usersAPI } from "../api/api";
 import { getAuthUserData } from "./auth-reducer";
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCES';
+const INITIALIZED_SUCCESS = 'auth/INITIALIZED_SUCCES';
 
 export type InitialStateType = {
 	initialized: boolean
