@@ -1,15 +1,33 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { getStatusThuncCreator, updateTextStatusThuncCreator } from "../../../redux/profileReducer";
-import s from './ProfileInfo.module.css';
+import { updateTextStatusThuncCreator } from "../../../redux/profileReducer";
+import { AppStateType } from "../../../redux/redux-store";
 
-class ProfileStatus extends React.Component {
+type OwnPropsType = {
+}
+
+type MapStatePropsType = {
+	statusText: string
+}
+
+type MapDispatchPropsType = {
+	updateTextStatusThuncCreator: (newStatusText: string) => void
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType
+
+type StateType = {
+	editMode: boolean
+	status: string
+}
+
+class ProfileStatus extends React.Component<PropsType, StateType> {
 	state = {
 		editMode: false,
 		status: this.props.statusText//берет из state
 	}
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps:PropsType, prevState: StateType) {
 		if (prevProps.statusText !== this.props.statusText) {
 			this.setState({
 				status: this.props.statusText
@@ -30,7 +48,7 @@ class ProfileStatus extends React.Component {
 		this.props.updateTextStatusThuncCreator(this.state.status);
 	}
 
-	onStatusChange = (e) => {
+	onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
 		this.setState({
 			status: e.currentTarget.value
 		})
@@ -53,13 +71,14 @@ class ProfileStatus extends React.Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 	return ({
 		statusText: state.profilePage.newStatusText,
 	})
 }
 
 export default compose(
-	connect(mapStateToProps, {updateTextStatusThuncCreator } ),
+	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType> (
+		mapStateToProps, {updateTextStatusThuncCreator } ),
 
 )(ProfileStatus);

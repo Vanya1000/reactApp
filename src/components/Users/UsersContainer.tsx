@@ -9,19 +9,34 @@ import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize, get
 import { UsersType } from "../../types/types";
 import { AppStateType } from "../../redux/redux-store";
 
-type PropsType = {
+type MapStatePropsType = {
 	currentPage: number
 	pageSize: number
-	getUsers: (currentPage: number, pageSize: number) => void
-	getUsersOnPagechangedThunkCreator: (pageNumber: number, pageSize: number) => void
-	getUsersOnPageSize: (currentPage: number, size: number) => void
 	isFetching: boolean
 	totalUserCount: number
 	users: Array<UsersType>
+	followingInProgress: boolean
+
+	
+}
+
+type MapDispatchPropsType = {
+	getUsers: (currentPage: number, pageSize: number) => void
+	getUsersOnPagechangedThunkCreator: (pageNumber: number, pageSize: number) => void
+	getUsersOnPageSize: (currentPage: number, size: number) => void
 	unfollow: (userId: number) => void
 	follow: (userId: number) => void
-	followingInProgress: boolean
+	setCurrentPage: (currentPage: number) => void
+	toggleFollowingProgress: (isFetching: boolean) => void
+	setPageSize: (pageSize: number) => void
 }
+
+type OwnPropsType = {
+	pageTitle: string
+	
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 class UsersContainer extends React.Component<PropsType> {
 
@@ -56,7 +71,7 @@ class UsersContainer extends React.Component<PropsType> {
 	}
 }
 
-const mapStateToProps = (state: AppStateType) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
 	return ({
 		users: getUsersSuper(state),// Super в назв просто для примера
 		pageSize: getPageSize(state),
@@ -66,9 +81,10 @@ const mapStateToProps = (state: AppStateType) => {
 		followingInProgress: getFollowingInProgress(state)
 	})
 }
-
+//<TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State = DefaultState>
 export default compose(
-	connect(mapStateToProps, {
+	connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(
+		mapStateToProps, {
 		follow,
 		unfollow,
 		setCurrentPage,

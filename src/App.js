@@ -40,7 +40,7 @@ class App extends React.Component {
             <Route path="/news" render={() => <News />} />
             <Route path="/music" render={() => <Music />} />
             <Route path="/notes" render={() => <NotesContainer />} />
-            <Route path="/users" render={() => <UsersContainer />} />
+          <Route path="/users" render={() => <UsersContainer pageTitle={'example'}/>} />
             <Route path="/settings" render={() => <Settings />} />
             <Route path="/login" render={() => <LoginPage />} />
           </div>
