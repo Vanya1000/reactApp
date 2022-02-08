@@ -10,7 +10,7 @@ let initialState: InitialStateType = {
 	initialized: false
 };
 
-const appReducer = (state = initialState, action: any): InitialStateType => { // func получает и возвращает InitialStateType
+const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => { // func получает и возвращает InitialStateType
 	switch (action.type) {
 		case INITIALIZED_SUCCESS:
 			return {
@@ -22,11 +22,15 @@ const appReducer = (state = initialState, action: any): InitialStateType => { //
 	}
 }
 
+type ActionsTypes = initializedSuccessActionType
+
 type initializedSuccessActionType = {
 	type: typeof INITIALIZED_SUCCESS //ts typeof на этапе компиляции выводит в тип значение константы
 }
 
 export const initializedSuccess = (): initializedSuccessActionType => ({ type: INITIALIZED_SUCCESS });
+
+//! Хрень какая то как getAuthUserData() импортировать?
 
 export const initializeApp = () => {
 	return (dispatch:any) => {

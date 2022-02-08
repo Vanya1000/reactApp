@@ -18,7 +18,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState
 
-const noteReducer = (state = initialState, action:any): InitialStateType => {
+const noteReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
 		case ADD_NOTE: {
 			return {
@@ -37,6 +37,8 @@ const noteReducer = (state = initialState, action:any): InitialStateType => {
 			return state;
 	}
 }
+
+type ActionsTypes = AddNoteActionCreatorActionType | UpdateNewNoteTextActionCreatorActionType
 
 type AddNoteActionCreatorActionType = {
 	type: typeof ADD_NOTE

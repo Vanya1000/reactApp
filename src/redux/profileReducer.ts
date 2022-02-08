@@ -1,5 +1,8 @@
+import { AppStateType } from './redux-store';
 import { PostType, ProfileType, ContactsType, PhotosType } from './../types/types';
 import { profileAPI } from "../api/api";
+import { Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 
 const ADD_POST = 'profile/ADD-POST'; {/*action type*/ } {/*используем вместо строк что бы не опечататься*/ }
 const SET_USER_PROFILE = 'profile/SET_USER_PROFILE';
@@ -18,7 +21,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
 		case ADD_POST: {
 			return {
@@ -55,6 +58,8 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
 	}
 }
 
+type ActionsTypes = AddPostActionType | SetUserProfileActionType | SavePhotoSuccessActionType | setNewMessageTextStatusActionType | DeletePostActionType
+
 type AddPostActionType = {
 	type: typeof ADD_POST
 	newPost: string
@@ -79,34 +84,52 @@ type SavePhotoSuccessActionType = {
 export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType =>
 	({ type: SAVE_PHOTO_SUCCESS, photos });
 
-export const getUserProfileThunkCreator = (userId: number) => async (dispatch: any) => { //для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
-	let response = await profileAPI.getUserProfile(userId);
-	dispatch(setUserProfile(response.data));
+type setNewMessageTextStatusActionType = {
+	type: typeof SET_STATUS_TEXT
+	statusText: string
 }
 
 export const setNewMessageTextStatus = (statusText: string) =>
 	({ type: SET_STATUS_TEXT, statusText: statusText });
 
-export const getStatusThuncCreator = (id: number) => async (dispatch: any) => {
+type DeletePostActionType = {
+	type: typeof DELETE_POST
+	postId: number
+}
+
+export const deletePost = (postId: number): DeletePostActionType =>
+	({ type: DELETE_POST, postId });
+
+
+
+type DispatchType = Dispatch<ActionsTypes>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
+export const getUserProfileThunkCreator = (userId: number | null): ThunkType => async (dispatch) => { //для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
+	let response = await profileAPI.getUserProfile(userId);
+	dispatch(setUserProfile(response.data));
+}
+
+export const getStatusThuncCreator = (id: number): ThunkType => async (dispatch: any) => { //! ХЗ???????
 	let response = await profileAPI.getStatus(id);
 	dispatch(setNewMessageTextStatus(response.data));
 }
 
-export const updateTextStatusThuncCreator = (newStatusText: string) => async (dispatch: any) => {
+export const updateTextStatusThuncCreator = (newStatusText: string): ThunkType => async (dispatch: any) => { //! ХЗ???????
 	let response = await profileAPI.updateStatus(newStatusText);
 	if (response.data.resultCode === 0) {
 		dispatch(setNewMessageTextStatus(newStatusText));
 	}
 }
 
-export const savePhoto = (file: any) => async (dispatch: any) => {
+export const savePhoto = (file: any): ThunkType => async (dispatch) => {
 	let response = await profileAPI.savePhoto(file);
 	if (response.data.resultCode === 0) {
 		dispatch(savePhotoSuccess(response.data.data.photos));
 	}
 }
 
-export const saveProfile = (profile: ProfileType) => async (dispatch: any, getState: any) => {//?берем из стейта то, что нам нужно. Не запрещено
+export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch, getState) => {//?берем из стейта то, что нам нужно. Не запрещено
 	const userId = getState().auth.id;
 	let response = await profileAPI.saveProfile(profile);
 	if (response.data.resultCode === 0) {
@@ -116,12 +139,5 @@ export const saveProfile = (profile: ProfileType) => async (dispatch: any, getSt
 	}
 }
 
-type DeletePostActionType = {
-	type: typeof DELETE_POST
-	postId: number
-}
-
-export const deletePost = (postId: number): DeletePostActionType =>
-	({ type: DELETE_POST, postId });
 
 export default profileReducer;
