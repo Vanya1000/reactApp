@@ -1,13 +1,17 @@
 import Users from "./Users";
 import React from "react";
 import { connect } from "react-redux";
-import { follow, setCurrentPage, unfollow, toggleFollowingProgress, getUsersThunkCreator, getUsersOnPagechangedThunkCreator, setPageSize, getUsersOnPageSize } from "../../redux/usersReducer";
+import { follow, unfollow, getUsersThunkCreator, getUsersOnPagechangedThunkCreator, getUsersOnPageSize, actions} from "../../redux/usersReducer";
 import Preloader from '../common/Preloader/Preloader';
 import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 import { compose } from "redux";
 import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize, getTotalUserCount, getUsersSuper } from "../../redux/users-selectors";
 import { UsersType } from "../../types/types";
 import { AppStateType } from "../../redux/redux-store";
+
+const setCurrentPage = actions.setCurrentPage
+const setPageSize = actions.setPageSize
+const toggleFollowingProgress = actions.toggleFollowingProgress
 
 type MapStatePropsType = {
 	currentPage: number
@@ -16,8 +20,6 @@ type MapStatePropsType = {
 	totalUserCount: number
 	users: Array<UsersType>
 	followingInProgress: boolean
-
-	
 }
 
 type MapDispatchPropsType = {
@@ -26,7 +28,7 @@ type MapDispatchPropsType = {
 	getUsersOnPageSize: (currentPage: number, size: number) => void
 	unfollow: (userId: number) => void
 	follow: (userId: number) => void
-	setCurrentPage: (currentPage: number) => void
+   setCurrentPage: (currentPage: number) => void
 	toggleFollowingProgress: (isFetching: boolean) => void
 	setPageSize: (pageSize: number) => void
 }
@@ -96,53 +98,3 @@ export default compose(
 	}),
 		//withAuthRedirect
 )(UsersContainer)
-
-
-//let AuthRedirectComponent = withAuthRedirect(UsersContainer)// это наш контейнерный компонет HOC
-/* export default connect(mapStateToProps, {
-	follow,
-	unfollow,
-	setCurrentPage,
-	toggleFollowingProgress,
-	getUsers: getUsersThunkCreator,
-	getUsersOnPagechangedThunkCreator
-})(AuthRedirectComponent) */
-
-/* this.props.toggleIsFetching(true);
-		usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-			this.props.setUsers(data.items)
-			this.props.setCountAllUsers(data.totalCount)
-			this.props.toggleIsFetching(false);
-		}) */
-
-/* this.props.setCurrentPage(pageNumber);
-this.props.toggleIsFetching(true);
-usersAPI.getUsers(pageNumber, this.props.pageSize).then(data => {
-this.props.setUsers(data.items);
-	this.props.toggleIsFetching(false);
-}) */
-
-/*const mapDispatchToProps = (dispatch) => {
-	return {
-		follow: (userID) => {
-			dispatch(followAC(userID))
-		},
-		unfollow: (userID) => {
-			dispatch(unfollowAC(userID))
-		},
-		setUsers: (user) => {
-			dispatch(setUsersAC(user))
-		},
-		setCurrentPage: (currentPage) => {
-			dispatch(setCurrentPageAC(currentPage))
-		},
-		setCountAllUsers: (countAllUsers) => {
-			dispatch(setCountAllUsersAC(countAllUsers))
-		},
-		toggleIsFetching: (isFetching) => {
-			dispatch(toggleIsFetchingAC(isFetching))
-		}
-		
-	}
-}
-*/

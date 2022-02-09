@@ -84,7 +84,7 @@ export const getAuthUserData = ():ThunkType => async (dispatch) => {//для з�
 }
 
 
-export const loginTC = (email: string, password: string, rememberMe: boolean, captcha: any):ThunkType => async (dispatch) => {//!!! captcha any
+export const loginTC = (email: string, password: string, rememberMe: boolean, captcha: string):ThunkType => async (dispatch) => {//!!! captcha any
 	let loginData = await authAPI.login(email, password, rememberMe, captcha);
 	if (loginData.resultCode === 0) {
 		dispatch(getAuthUserData());
@@ -98,14 +98,14 @@ export const loginTC = (email: string, password: string, rememberMe: boolean, ca
 }
 
 export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
-	let response = await securityAPI.getCaptcha();
-	const captchaUrl = response.data.url;
+	let captchaData = await securityAPI.getCaptcha();
+	const captchaUrl = captchaData.url;
 	dispatch(getCaptchaUrlSuccess(captchaUrl));
 }
 
 export const logout = (): ThunkType => async (dispatch) => {
 	let response = await authAPI.logout()
-	if (response.data.resultCode === 0) {
+	if (response.data.resultCode === ResultCodesEnum.Success) {
 		dispatch(setAuthUserData(null, null, null, false));
 	}
 }

@@ -1,6 +1,6 @@
 import { AppStateType } from './redux-store';
 import { PostType, ProfileType, ContactsType, PhotosType } from './../types/types';
-import { profileAPI } from "../api/api";
+import { profileAPI, ResultCodesEnum } from "../api/api";
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
@@ -89,7 +89,7 @@ type setNewMessageTextStatusActionType = {
 	statusText: string
 }
 
-export const setNewMessageTextStatus = (statusText: string) =>
+export const setNewMessageTextStatus = (statusText: string): setNewMessageTextStatusActionType =>
 	({ type: SET_STATUS_TEXT, statusText: statusText });
 
 type DeletePostActionType = {
@@ -106,33 +106,33 @@ type DispatchType = Dispatch<ActionsTypes>
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getUserProfileThunkCreator = (userId: number | null): ThunkType => async (dispatch) => { //для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
-	let response = await profileAPI.getUserProfile(userId);
-	dispatch(setUserProfile(response.data));
+	let userProfileData = await profileAPI.getUserProfile(userId);
+	dispatch(setUserProfile(userProfileData));
 }
 
-export const getStatusThuncCreator = (id: number): ThunkType => async (dispatch: any) => { //! ХЗ???????
-	let response = await profileAPI.getStatus(id);
-	dispatch(setNewMessageTextStatus(response.data));
+export const getStatusThuncCreator = (id: number): ThunkType => async (dispatch) => {
+	let getStatusData = await profileAPI.getStatus(id);
+	dispatch(setNewMessageTextStatus(getStatusData));
 }
 
-export const updateTextStatusThuncCreator = (newStatusText: string): ThunkType => async (dispatch: any) => { //! ХЗ???????
-	let response = await profileAPI.updateStatus(newStatusText);
-	if (response.data.resultCode === 0) {
+export const updateTextStatusThuncCreator = (newStatusText: string): ThunkType => async (dispatch) => {
+	let updateStatusData = await profileAPI.updateStatus(newStatusText);
+	if (updateStatusData.resultCode === ResultCodesEnum.Success) {
 		dispatch(setNewMessageTextStatus(newStatusText));
 	}
 }
 
 export const savePhoto = (file: any): ThunkType => async (dispatch) => {
-	let response = await profileAPI.savePhoto(file);
-	if (response.data.resultCode === 0) {
-		dispatch(savePhotoSuccess(response.data.data.photos));
+	let savePhotoData = await profileAPI.savePhoto(file);
+	if (savePhotoData.resultCode === 0) {
+		dispatch(savePhotoSuccess(savePhotoData.data.photos));
 	}
 }
 
 export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch, getState) => {//?берем из стейта то, что нам нужно. Не запрещено
 	const userId = getState().auth.id;
-	let response = await profileAPI.saveProfile(profile);
-	if (response.data.resultCode === 0) {
+	let saveProfileData = await profileAPI.saveProfile(profile);
+	if (saveProfileData.resultCode === ResultCodesEnum.Success) {
 		dispatch(getUserProfileThunkCreator(userId))  
 	} else {
 		//dispatch(setErrorWrong(true));//! Нужно реализовать отображение ошибки!

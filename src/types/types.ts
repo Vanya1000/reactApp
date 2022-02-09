@@ -32,7 +32,7 @@ export type PhotosType = {
 export type UsersType = {
 	id: number
 	name: string
-	status: string | null
+	status: string
 	photos: PhotosType
-	//followed: boolean
+	followed: boolean
 }
