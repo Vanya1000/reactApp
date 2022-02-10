@@ -1,9 +1,11 @@
 import s from './Notes.module.css';
 import NotesPost from './NotesPost/NotesPost';
 import React from 'react';
-import { addNoteActionCreator, updateNewNoteTextActionCreator } from '../../redux/noteReducer';
+import { actions } from '../../redux/noteReducer';
 import Notes from './Notes';
 import { connect } from 'react-redux';
+
+const { addNoteActionCreator, updateNewNoteTextActionCreator } = actions
 
 const mapStateToProps = (state) => {
 	return {

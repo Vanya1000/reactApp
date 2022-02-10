@@ -1,14 +1,10 @@
-import { AppStateType } from './redux-store';
+
+import { AppStateType, InferActionTypes } from './redux-store';
 import { PostType, ProfileType, ContactsType, PhotosType } from './../types/types';
-import { profileAPI, ResultCodesEnum } from "../api/api";
+import { ResultCodesEnum } from "../api/api";
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-
-const ADD_POST = 'profile/ADD-POST'; {/*action type*/ } {/*используем вместо строк что бы не опечататься*/ }
-const SET_USER_PROFILE = 'profile/SET_USER_PROFILE';
-const SET_STATUS_TEXT = 'profile/SET_STATUS_TEXT';
-const DELETE_POST = 'profile/DELETE_POST';
-const SAVE_PHOTO_SUCCESS = 'profile/SAVE_PHOTO_SUCCESS';
+import { profileAPI } from '../api/profile-api';
 
 let initialState = {
 	posts: [
@@ -23,31 +19,31 @@ export type InitialStateType = typeof initialState
 
 const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
-		case ADD_POST: {
+		case 'profile/ADD-POST': {
 			return {
 				...state,
 				posts: [...state.posts, { id: 5, message: action.newPost, likesCount: 0 }],
 			};
 		}
-		case SET_USER_PROFILE: {
+		case 'profile/SET_USER_PROFILE': {
 			return {
 				...state,
 				profile: action.profile
 			};
 		}
-		case SET_STATUS_TEXT: {
+		case 'profile/SET_STATUS_TEXT': {
 			return {
 				...state,
 				newStatusText: action.statusText
 			};
 		}
-		case SAVE_PHOTO_SUCCESS: {
+		case 'profile/SAVE_PHOTO_SUCCESS': {
 			return {
 				...state,
 				profile: {...state.profile, photos: action.photos} as ProfileType //! временно
 			};
 		}
-		case DELETE_POST: {
+		case 'profile/DELETE_POST': {
 			return {
 				...state,
 				posts: state.posts.filter(p => p.id != action.postId)
@@ -58,74 +54,40 @@ const profileReducer = (state = initialState, action: ActionsTypes): InitialStat
 	}
 }
 
-type ActionsTypes = AddPostActionType | SetUserProfileActionType | SavePhotoSuccessActionType | setNewMessageTextStatusActionType | DeletePostActionType
+type ActionsTypes = InferActionTypes<typeof actions>
 
-type AddPostActionType = {
-	type: typeof ADD_POST
-	newPost: string
+export const actions = {
+	addPost: (post: string) => ({ type: 'profile/ADD-POST', newPost: post } as const),
+	setUserProfile: (profile: ProfileType) => ({ type: 'profile/SET_USER_PROFILE', profile } as const),
+	savePhotoSuccess: (photos: PhotosType) => ({ type: 'profile/SAVE_PHOTO_SUCCESS', photos } as const),
+	setNewMessageTextStatus: (statusText: string) => ({ type: 'profile/SET_STATUS_TEXT', statusText: statusText } as const),
+	deletePost: (postId: number) => ({ type: 'profile/DELETE_POST', postId } as const)
 }
-
-export const addPost = (post: string): AddPostActionType  =>
-	({ type: ADD_POST, newPost: post });
-
-type SetUserProfileActionType = {
-	type: typeof SET_USER_PROFILE
-	profile: ProfileType
-}
-
-export const setUserProfile = (profile: ProfileType): SetUserProfileActionType =>
-	({ type: SET_USER_PROFILE, profile });
-
-type SavePhotoSuccessActionType = {
-	type: typeof SAVE_PHOTO_SUCCESS
-	photos: PhotosType
-}
-
-export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessActionType =>
-	({ type: SAVE_PHOTO_SUCCESS, photos });
-
-type setNewMessageTextStatusActionType = {
-	type: typeof SET_STATUS_TEXT
-	statusText: string
-}
-
-export const setNewMessageTextStatus = (statusText: string): setNewMessageTextStatusActionType =>
-	({ type: SET_STATUS_TEXT, statusText: statusText });
-
-type DeletePostActionType = {
-	type: typeof DELETE_POST
-	postId: number
-}
-
-export const deletePost = (postId: number): DeletePostActionType =>
-	({ type: DELETE_POST, postId });
-
-
 
 type DispatchType = Dispatch<ActionsTypes>
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
 export const getUserProfileThunkCreator = (userId: number | null): ThunkType => async (dispatch) => { //для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
 	let userProfileData = await profileAPI.getUserProfile(userId);
-	dispatch(setUserProfile(userProfileData));
+	dispatch(actions.setUserProfile(userProfileData));
 }
 
 export const getStatusThuncCreator = (id: number): ThunkType => async (dispatch) => {
 	let getStatusData = await profileAPI.getStatus(id);
-	dispatch(setNewMessageTextStatus(getStatusData));
+	dispatch(actions.setNewMessageTextStatus(getStatusData));
 }
 
 export const updateTextStatusThuncCreator = (newStatusText: string): ThunkType => async (dispatch) => {
 	let updateStatusData = await profileAPI.updateStatus(newStatusText);
 	if (updateStatusData.resultCode === ResultCodesEnum.Success) {
-		dispatch(setNewMessageTextStatus(newStatusText));
+		dispatch(actions.setNewMessageTextStatus(newStatusText));
 	}
 }
 
-export const savePhoto = (file: any): ThunkType => async (dispatch) => {
+export const savePhoto = (file: File): ThunkType => async (dispatch) => {
 	let savePhotoData = await profileAPI.savePhoto(file);
 	if (savePhotoData.resultCode === 0) {
-		dispatch(savePhotoSuccess(savePhotoData.data.photos));
+		dispatch(actions.savePhotoSuccess(savePhotoData.data.photo));
 	}
 }
 

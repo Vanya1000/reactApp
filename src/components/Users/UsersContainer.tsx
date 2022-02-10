@@ -9,9 +9,8 @@ import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize, get
 import { UsersType } from "../../types/types";
 import { AppStateType } from "../../redux/redux-store";
 
-const setCurrentPage = actions.setCurrentPage
-const setPageSize = actions.setPageSize
-const toggleFollowingProgress = actions.toggleFollowingProgress
+const { setCurrentPage, setPageSize, toggleFollowingProgress} = actions
+
 
 type MapStatePropsType = {
 	currentPage: number

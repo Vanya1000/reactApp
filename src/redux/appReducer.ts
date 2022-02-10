@@ -1,18 +1,18 @@
-import { authAPI, usersAPI } from "../api/api";
 import { getAuthUserData } from "./auth-reducer";
-const INITIALIZED_SUCCESS = 'auth/INITIALIZED_SUCCES';
+import { InferActionTypes } from "./redux-store";
+//const INITIALIZED_SUCCESS = 'auth/INITIALIZED_SUCCES'; В  TS можем избавиться от констант поместив в case и добавив as const в actions{}
 
-export type InitialStateType = {
-	initialized: boolean
+
+
+let initialState = {
+	initialized: false
 }
 
-let initialState: InitialStateType = {
-	initialized: false
-};
+export type InitialStateType = typeof initialState
 
 const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => { // func получает и возвращает InitialStateType
 	switch (action.type) {
-		case INITIALIZED_SUCCESS:
+		case 'auth/INITIALIZED_SUCCES':
 			return {
 				...state,
 				initialized: true
@@ -22,21 +22,22 @@ const appReducer = (state = initialState, action: ActionsTypes): InitialStateTyp
 	}
 }
 
-type ActionsTypes = initializedSuccessActionType
+type ActionsTypes = InferActionTypes<typeof actions>
 
-type initializedSuccessActionType = {
-	type: typeof INITIALIZED_SUCCESS //ts typeof на этапе компиляции выводит в тип значение константы
+
+
+export const actions = {
+	initializedSuccess: () => ({ type: 'auth/INITIALIZED_SUCCES' } as const)
 }
 
-export const initializedSuccess = (): initializedSuccessActionType => ({ type: INITIALIZED_SUCCESS });
 
-//! Хрень какая то как getAuthUserData() импортировать?
+//! Хрень какая то как getAuthUserData()  решение 10 видео 1:13:45 нет там решения... короче хз как в видео это не сделали
 
 export const initializeApp = () => {
 	return (dispatch:any) => {
 		let promise = dispatch(getAuthUserData());// вернули промис из auth-reducer
 		Promise.all([promise]).then(() => {// если несколько 
-			dispatch(initializedSuccess());
+			dispatch(actions.initializedSuccess());
 		});
 		
 	}

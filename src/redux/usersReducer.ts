@@ -1,8 +1,8 @@
-import { AppStateType, InferActionTypes } from './redux-store';
+import { AppStateType, InferActionTypes, BaseThunkType } from './redux-store';
 import { PhotosType, UsersType } from './../types/types';
-import { usersAPI } from "../api/api";
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { usersAPI } from '../api/user-api';
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -12,7 +12,6 @@ const SET_PAGE_SIZE = 'users/SET_PAGE_SIZE';
 const SET_COUNT_ALL_USERS = 'users/SET_COUNT_ALL_USERS';
 const TOGGLE_IS_FETCHING = 'users/TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'users/TOGGLE_IS_FOLLOWING_PROGRESS';
-
 
 
 let initialState = {
@@ -88,7 +87,7 @@ export const actions = {
 
 
 type DispatchType = Dispatch<ActionsTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+type ThunkType = BaseThunkType<ActionsTypes>
 
 export const getUsersThunkCreator = (currentPage: number, pageSize: number): ThunkType => async (dispatch, getState) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
 	dispatch(actions.toggleIsFetching(true));

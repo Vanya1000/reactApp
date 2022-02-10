@@ -1,5 +1,4 @@
-const ADD_NOTE = 'ADD-NOTE';
-const UPDATE_NEW_NOTE_TEXT = 'note/UPDATE-NEW-NOTE-TEXT'; {/*redux смотрит совпад и анализирует и выполняет action*/ }
+import { InferActionTypes } from "./redux-store";
 
 type NoteType = {
 	id: number
@@ -20,14 +19,14 @@ export type InitialStateType = typeof initialState
 
 const noteReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
-		case ADD_NOTE: {
+		case 'note/ADD-NOTE': {
 			return {
 				...state,
 				note: [...state.note, { id: 5, note: state.newNoteText }],
 				newNoteText: ''
 			}
 		}
-		case UPDATE_NEW_NOTE_TEXT: {
+		case 'note/UPDATE-NEW-NOTE-TEXT': {
 			return {
 				...state,
 				newNoteText: action.newText
@@ -38,19 +37,12 @@ const noteReducer = (state = initialState, action: ActionsTypes): InitialStateTy
 	}
 }
 
-type ActionsTypes = AddNoteActionCreatorActionType | UpdateNewNoteTextActionCreatorActionType
+type ActionsTypes = InferActionTypes<typeof actions>
 
-type AddNoteActionCreatorActionType = {
-	type: typeof ADD_NOTE
+
+export const actions = {
+	addNoteActionCreator: () => ({ type: 'note/ADD-NOTE' } as const),
+	updateNewNoteTextActionCreator: (textInputTextarea: string) => ({ type: 'note/UPDATE-NEW-NOTE-TEXT', newText: textInputTextarea } as const)
 }
 
-export const addNoteActionCreator = (): AddNoteActionCreatorActionType => ({ type: ADD_NOTE });
-
-type UpdateNewNoteTextActionCreatorActionType = {
-	type: typeof UPDATE_NEW_NOTE_TEXT
-	newText: string
-}
-
-export const updateNewNoteTextActionCreator = (textInputTextarea: string): UpdateNewNoteTextActionCreatorActionType =>
-	({ type: UPDATE_NEW_NOTE_TEXT, newText: textInputTextarea });
 export default noteReducer;

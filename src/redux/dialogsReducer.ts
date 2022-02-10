@@ -1,5 +1,4 @@
-const ADD_MESSAGE = 'ADD-MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'dialogs/UPDATE-NEW-MESSAGE-TEXT'; {/*redux смотрит совпад и анализирует и выполняет action*/ }
+import { InferActionTypes } from "./redux-store";
 
 type DialogType = {
 	id: number
@@ -30,7 +29,7 @@ export type InitialStateType = typeof initialState
 
 const dialogsReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
-		case ADD_MESSAGE:
+		case 'dialogs/UPDATE-NEW-MESSAGE-TEXT':
 			return {
 				...state,
 				messages: [...state.messages, { id: 5, message: action.newMessage }]
@@ -40,16 +39,11 @@ const dialogsReducer = (state = initialState, action: ActionsTypes): InitialStat
 	}
 }
 
-type ActionsTypes = AddMessageActionCreatorActionType
+type ActionsTypes = InferActionTypes<typeof actions>
 
-type AddMessageActionCreatorActionType = {
-	type: typeof ADD_MESSAGE
-	newMessage: string
+export const actions = {
+	addMessageActionCreator: (message: string) => ({ type: 'dialogs/UPDATE-NEW-MESSAGE-TEXT', newMessage: message } as const)
 }
-
-export const addMessageActionCreator = (message: string): AddMessageActionCreatorActionType =>
-	({ type: ADD_MESSAGE, newMessage: message });
-
 
 export default dialogsReducer;
 

@@ -2,11 +2,13 @@ import { NavLink, Redirect } from 'react-router-dom';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
 import React from 'react';
-import { addMessageActionCreator } from '../../redux/dialogsReducer';
+import { actions } from '../../redux/dialogsReducer';
 import Dialogs from './Dialogs';
 import { connect } from 'react-redux';
 import { withAuthRedirect } from '../../HOC/withAuthRedirect';
 import { compose } from 'redux';
+
+const { addMessageActionCreator } = actions
 
 const mapStateToProps = (state) => {
 	return {
