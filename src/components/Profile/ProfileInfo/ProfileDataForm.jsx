@@ -6,6 +6,7 @@ const ProfileDataForm = (props) => {
 	const onSubmit = data => {
 		props.saveProfile(data);
 		props.goToExitEditMode();
+		console.log(data.contacts);
 	}
 	setValue('fullName', props.profile.fullName)
 	setValue('aboutMe', props.profile.aboutMe)
@@ -27,7 +28,7 @@ const ProfileDataForm = (props) => {
 			</div>
 			<div>
 				<div>Contacts:{Object.keys(props.profile.contacts).map(item => {
-					return <p key={item}>{item}: <input type="text" {...register(`contacts.${item}`)} /></p>
+					return <p key={item}>{item}: <input type="text" {...register(`contacts.${item}`)} /></p>//не работает//!
 				})}</div>
 				
 			</div>

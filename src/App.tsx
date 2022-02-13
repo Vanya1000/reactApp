@@ -18,11 +18,18 @@ import { compose } from "redux";
 import { withRouter } from "react-router-dom";
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import { withSuspense } from "./HOC/withSuspense";
-//const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
+import { AppStateType } from "./redux/redux-store";
+//const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer')); // изменить имя
 
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+  initializeApp: () => void
+}
 
+const SuspendedDialogs = withSuspense(DialogsContainer);
+const SuspendedProfile = withSuspense(ProfileContainer);
 
-class App extends React.Component {
+class App extends React.Component<MapPropsType & DispatchPropsType> {
   componentDidMount() {
     this.props.initializeApp();
   }
@@ -35,8 +42,8 @@ class App extends React.Component {
           <HeaderContainer />
           <Navbar />
           <div className='app-wrapper-content'>
-          <Route path="/dialogs" render={ withSuspense(DialogsContainer) } />{/* Обернули HOC */} 
-            <Route path="/profile/:userId?" render={() => <ProfileContainer />} />
+          <Route path="/dialogs" render={() => <SuspendedDialogs />} />{/* Обернули HOC */} 
+          <Route path="/profile/:userId?" render={() => <SuspendedProfile />} />{/* Обернули HOC */} 
             <Route path="/news" render={() => <News />} />
             <Route path="/music" render={() => <Music />} />
             <Route path="/notes" render={() => <NotesContainer />} />
@@ -48,7 +55,7 @@ class App extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:AppStateType) => ({
   initialized: state.app.initialized
 
 })

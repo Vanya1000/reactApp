@@ -3,10 +3,16 @@ import s from './Dialogs.module.css';
 import Message from './Message/Message';
 import React from 'react';
 import { useForm } from "react-hook-form";
+import { DialogType, InitialStateType, MessageType } from '../../redux/dialogsReducer';
 
+type PropsType = {
+	dialogsPage: InitialStateType //именно из dialogs reducer
+	dialogs: Array<DialogType>
+	messages: Array<MessageType>
+	addMessage: (newMessage: string) => void
+}
 
-
-const Dialogs = (props) => {
+const Dialogs: React.FC<PropsType> = (props) => {
 	let dialogsElements = props.dialogs.map((d) => <DialogItem id={d.id} key={d.id} name={d.name} />)
 	let messagesElements = props.messages.map((m) => <Message message={m.message} key={m.id} />)
 
@@ -25,10 +31,17 @@ const Dialogs = (props) => {
 	)
 }
 
+type AddMessageFormType = {
+	addMessage: (newMessage: string) => void
+}
 
-const AddMessageForm = (props) => {
-	const { register, handleSubmit, reset, formState: { errors } } = useForm();
-	const onSubmit = data => {
+type FormValues = {
+	message: string;
+};
+
+const AddMessageForm: React.FC<AddMessageFormType> = (props) => {
+	const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
+	const onSubmit = (data: FormValues) => {
 		props.addMessage(data.message);
 		reset();
 	}

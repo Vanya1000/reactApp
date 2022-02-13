@@ -2,9 +2,16 @@ import React from "react";
 import s from './User.module.css'
 import userPhoto from '../../assets/images/user.png';
 import { NavLink } from 'react-router-dom';
+import { UsersType } from "../../types/types";
 
+type PropsType = {
+	user: UsersType
+	followingInProgress: boolean
+	unfollow: (userId: number) => void
+	follow: (userId: number) => void
+}
 
-let User = ({ user, followingInProgress, unfollow, follow}) => {
+let User: React.FC<PropsType> = ({ user, followingInProgress, unfollow, follow}) => {
 	return  (
 		<div>
 			<div className={s.user__wrapper}>

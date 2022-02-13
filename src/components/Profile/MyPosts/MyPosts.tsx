@@ -2,10 +2,14 @@ import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import React, { memo } from 'react';
 import { useForm } from "react-hook-form";
+import { PostType } from '../../../types/types';
 
+type PropsType = {
+	posts: Array<PostType>
+	addPost: (newPost: string) => void
+}
 
-const MyPosts = React.memo(props => {
-	console.log('RENDER')
+const MyPosts: React.FC<PropsType> = React.memo(props => {
 	let postsElement = props.posts.map(p => <Post message={p.message} key={p.id} likesCount={p.likesCount} />)
 
 	return (
@@ -25,9 +29,20 @@ const MyPosts = React.memo(props => {
 	)
 })
 
-const AddPostForm = (props) => {
-	const { register, handleSubmit, reset, formState: { errors } } = useForm({mode: 'onBlur'});
-	const onSubmit = data => {
+
+
+
+type AddPostFormType = {
+	addPost: (newPost: string) => void
+}
+
+type FormValues = {
+	post: string;
+};
+
+const AddPostForm: React.FC<AddPostFormType> = (props) => {
+	const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({mode: 'onBlur'});
+	const onSubmit = (data: FormValues) => {
 		props.addPost(data.post)
 		reset();
 	}
