@@ -9,7 +9,7 @@ import ProfileDataForm from "./ProfileDataForm";
 import { ProfileType } from "../../../types/types";
 
 type PropsType = {
-	profile: ProfileType
+	profile: ProfileType 
 	isOwner: boolean
 	savePhoto: (file: File) => void
 	saveProfile: (profile: ProfileType) => void

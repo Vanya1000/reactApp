@@ -4,8 +4,16 @@ import s from './Header.module.css';
 import { Button, Space } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
 
+export type MapPropsType = {
+	isAuth: boolean
+	login: string | null
+}
+export type DispatchPropsType = {
+	logout: () => void
+}
 
-const Header = (props) => {
+
+const Header: React.FC<MapPropsType & DispatchPropsType> = (props) => {
 	return (
 		<header className={s.header}>
 			<div>

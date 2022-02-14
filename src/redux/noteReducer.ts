@@ -1,6 +1,6 @@
 import { InferActionTypes } from "./redux-store";
 
-type NoteType = {
+export type NoteType = {
 	id: number
 	note: string
 }

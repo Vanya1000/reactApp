@@ -3,9 +3,11 @@ import { Link, NavLink } from 'react-router-dom';
 import FriendsBlock from './FriendsBlock/FriendsBlock';
 import FriendsBlockContainer from './FriendsBlock/FriendsBlockContainer';
 import s from './Navbar.module.css';
-const setActive = ({isActive}) => isActive ? s.activeLink : '';
+const setActive = ({isActive}: any) => isActive ? s.activeLink : '';
 
-const Navbar = (props) => {
+// todo типизация any
+
+const Navbar: React.FC = (props) => {
 	
 	return (
 		<nav className={s.nav}>

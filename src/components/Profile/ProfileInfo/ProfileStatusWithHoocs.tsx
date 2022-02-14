@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { getStatusThuncCreator, updateTextStatusThuncCreator } from "../../../redux/profileReducer";
+import { AppStateType } from "../../../redux/redux-store";
 import s from './ProfileInfo.module.css';
 
-const ProfileStatusWithHooks = (props) => {
+//todo избавиться от connect и перенести его в контейнер выше
+
+type PropsType = {
+	statusText: string
+	updateTextStatusThuncCreator: (status: string) => void
+}
+
+const ProfileStatusWithHooks: React.FC<PropsType> = (props) => {
 	let [editMode, setEditMode] = useState(false);
 	let [status, setStatus] = useState(props.statusText);
 	useEffect(() => {
@@ -20,7 +28,7 @@ const ProfileStatusWithHooks = (props) => {
 		props.updateTextStatusThuncCreator(status);
 	}
 
-	const onStatusChange = (e) => {
+	const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setStatus(e.currentTarget.value);
 	}
 
@@ -40,7 +48,7 @@ const ProfileStatusWithHooks = (props) => {
 	)
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state:AppStateType) => {
 	return ({
 		statusText: state.profilePage.newStatusText,
 	})

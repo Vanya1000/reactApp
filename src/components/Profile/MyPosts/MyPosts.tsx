@@ -4,12 +4,15 @@ import React, { memo } from 'react';
 import { useForm } from "react-hook-form";
 import { PostType } from '../../../types/types';
 
-type PropsType = {
+export type MapPropsType = {
 	posts: Array<PostType>
+}
+
+export type DispatchPropsType = {
 	addPost: (newPost: string) => void
 }
 
-const MyPosts: React.FC<PropsType> = React.memo(props => {
+const MyPosts: React.FC<MapPropsType & DispatchPropsType> = React.memo(props => {
 	let postsElement = props.posts.map(p => <Post message={p.message} key={p.id} likesCount={p.likesCount} />)
 
 	return (
