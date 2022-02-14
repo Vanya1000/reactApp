@@ -1,7 +1,10 @@
 import React from "react";
 import s from './NotesPost.module.css';
 
-const NotesPost = (props) => {
+type PropsType = {
+	note: string
+}
+const NotesPost: React.FC<PropsType> = (props) => {
 	return (
 		<div className={s.notes__post}>
 			{props.note}
