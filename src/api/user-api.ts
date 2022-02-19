@@ -17,9 +17,9 @@ export const usersAPI = {//вспомагательный объект кото�
 			})
 	},
 	setFollow(id: number) {
-		return instance.post<ResponseType>(`follow/${id}`)
+		return instance.post<ResponseType>(`follow/${id}`).then(res => res.data)
 	},
 	setUnfollow(id: number) {
-		return instance.delete<ResponseType>(`follow/${id}`)
+		return instance.delete<ResponseType>(`follow/${id}`).then(res => res.data)
 	},
 }
