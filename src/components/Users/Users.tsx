@@ -1,5 +1,6 @@
 import { Pagination } from "antd";
 import React from "react";
+import { FilterType } from "../../redux/usersReducer";
 import { UsersType } from "../../types/types";
 import User from "./User";
 import UsersSearchForm from "./UsersSearchForm";
@@ -15,6 +16,7 @@ type PropsType = {
 	unfollow: (userId: number) => void
 	follow: (userId: number) => void
 	onPageSizeChange: (current: number, size: number) => void
+	onFilterChanged: (filter: FilterType) => void
 }
 
 let Users: React.FC<PropsType> = ({ totalUserCount, pageSize, currentPage, onPageChanged, setPageSize, onPageSizeChange, ...props }) => {
@@ -23,7 +25,7 @@ let Users: React.FC<PropsType> = ({ totalUserCount, pageSize, currentPage, onPag
 	}
 	return (
 		<div>
-			<UsersSearchForm />
+			<UsersSearchForm onFilterChanged={props.onFilterChanged} />
 			<Pagination showQuickJumper defaultCurrent={1} total={totalUserCount} defaultPageSize={pageSize} onChange={onChange} onShowSizeChange={onPageSizeChange}/>
 			{
 				props.users.map((u) => <User

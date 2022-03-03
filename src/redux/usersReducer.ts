@@ -13,6 +13,7 @@ const SET_PAGE_SIZE = 'users/SET_PAGE_SIZE';
 const SET_COUNT_ALL_USERS = 'users/SET_COUNT_ALL_USERS';
 const TOGGLE_IS_FETCHING = 'users/TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'users/TOGGLE_IS_FOLLOWING_PROGRESS';
+const SET_FILTER = 'users/SET_FILTER;'
 
 
 let initialState = {
@@ -21,10 +22,14 @@ let initialState = {
 	totalUserCount: 1,
 	currentPage: 1,
 	isFetching: true,
-	followingInProgress: false
+	followingInProgress: false,
+	filter: {
+		term: ''
+	}
 };
 
 export type InitialStateType = typeof initialState
+export type FilterType = typeof initialState.filter
 
 const usersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 	switch (action.type) {
@@ -68,6 +73,11 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
 				...state,
 				followingInProgress: action.isFetching
 			}
+		case SET_FILTER:
+			return {
+				...state,
+				filter: action.payload
+			}
 		default:
 			return state;
 	}
@@ -76,6 +86,7 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
 type ActionsTypes = InferActionTypes<typeof actions>
 
 export const actions = {
+	setFilter: (term: string) => ({ type: SET_FILTER, payload: {term} } as const),
 	followSucsess: (userId: number) => ({ type: FOLLOW, userId } as const),
 	unfollowSucsess: (userId: number) => ({ type: UNFOLLOW, userId } as const),
 	setUsers: (users: Array<UsersType>) => ({ type: SET_USERS, users } as const),
@@ -90,9 +101,10 @@ export const actions = {
 type DispatchType = Dispatch<ActionsTypes>
 type ThunkType = BaseThunkType<ActionsTypes>
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number): ThunkType => async (dispatch, getState) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
+export const getUsersThunkCreator = (currentPage: number, pageSize: number, term: string): ThunkType => async (dispatch, getState) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
 	dispatch(actions.toggleIsFetching(true));
-	let data = await usersAPI.getUsers(currentPage, pageSize);
+	dispatch(actions.setFilter(term));
+	let data = await usersAPI.getUsers(currentPage, pageSize, term);
 	dispatch(actions.toggleIsFetching(false));
 	dispatch(actions.setUsers(data.items));
 	dispatch(actions.setCountAllUsers(data.totalCount));

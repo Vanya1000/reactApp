@@ -1,14 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { FilterType } from "../../redux/usersReducer";
 
+type PropsType = {
+	onFilterChanged: (filter: FilterType) => void
+}
 
-type FormData = {
-	term: string;
-};
-
-const UsersSearchForm = () => {
-	const { register, setValue, handleSubmit, formState: { errors } } = useForm<FormData>();
-	const onSubmit = handleSubmit(data => console.log(data));
+const UsersSearchForm: React.FC<PropsType> = (props) => {
+	const { register, setValue, handleSubmit, formState: { errors } } = useForm<FilterType>();
+	const onSubmit = handleSubmit(data => props.onFilterChanged(data));
 
 	return <div>
 		<form onSubmit={onSubmit}>

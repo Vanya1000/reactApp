@@ -10,8 +10,8 @@ type GetItemsType = {
 
 
 export const usersAPI = {//вспомагательный объект который содержит методы(набор)
-	getUsers(currentPage: number, pageSize: number) {
-		return instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}`)
+	getUsers(currentPage: number, pageSize: number, term: string = '') {
+		return instance.get<GetItemsType>(`users?page=${currentPage}&count=${pageSize}&term=${term}`)
 			.then(response => {
 				return response.data;//возвращаем только data(инкапсулируем)
 			})
