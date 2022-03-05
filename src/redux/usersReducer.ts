@@ -24,7 +24,8 @@ let initialState = {
 	isFetching: true,
 	followingInProgress: false,
 	filter: {
-		term: ''
+		term: '',
+		friend: null as null | boolean
 	}
 };
 
@@ -74,10 +75,7 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
 				followingInProgress: action.isFetching
 			}
 		case SET_FILTER:
-			return {
-				...state,
-				filter: action.payload
-			}
+			return { ...state, filter: action.payload }
 		default:
 			return state;
 	}
@@ -86,7 +84,7 @@ const usersReducer = (state = initialState, action: ActionsTypes): InitialStateT
 type ActionsTypes = InferActionTypes<typeof actions>
 
 export const actions = {
-	setFilter: (term: string) => ({ type: SET_FILTER, payload: {term} } as const),
+	setFilter: (filter: FilterType) => ({ type: SET_FILTER, payload: filter } as const),
 	followSucsess: (userId: number) => ({ type: FOLLOW, userId } as const),
 	unfollowSucsess: (userId: number) => ({ type: UNFOLLOW, userId } as const),
 	setUsers: (users: Array<UsersType>) => ({ type: SET_USERS, users } as const),
@@ -101,10 +99,10 @@ export const actions = {
 type DispatchType = Dispatch<ActionsTypes>
 type ThunkType = BaseThunkType<ActionsTypes>
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number, term: string): ThunkType => async (dispatch, getState) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
+export const getUsersThunkCreator = (currentPage: number, pageSize: number, filter: FilterType): ThunkType => async (dispatch, getState) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
 	dispatch(actions.toggleIsFetching(true));
-	dispatch(actions.setFilter(term));
-	let data = await usersAPI.getUsers(currentPage, pageSize, term);
+	dispatch(actions.setFilter(filter));
+	let data = await usersAPI.getUsers(currentPage, pageSize, filter.term, filter.friend);
 	dispatch(actions.toggleIsFetching(false));
 	dispatch(actions.setUsers(data.items));
 	dispatch(actions.setCountAllUsers(data.totalCount));

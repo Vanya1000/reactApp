@@ -6,11 +6,10 @@ import Settings from './components/Settings/Settings';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import NotesContainer from './components/Notes/NotesContainer';
-import UsersContainer from './components/Users/UsersContainer';
+import { UsersPage } from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import { Route } from 'react-router-dom';
 import HeaderContainer from './components/Header/HeaderContainer';
-import LoginPage from './components/Login/Login';
 import { connect } from "react-redux";
 import { initializeApp } from "./redux/appReducer";
 import Preloader from "./components/common/Preloader/Preloader";
@@ -19,6 +18,7 @@ import { withRouter } from "react-router-dom";
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import { withSuspense } from "./HOC/withSuspense";
 import { AppStateType } from "./redux/redux-store";
+import { Login } from "./components/Login/Login";
 //const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer')); // изменить имя
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -47,9 +47,9 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
             <Route path="/news" render={() => <News />} />
             <Route path="/music" render={() => <Music />} />
             <Route path="/notes" render={() => <NotesContainer />} />
-          <Route path="/users" render={() => <UsersContainer pageTitle={'example'}/>} />
+          <Route path="/users" render={() => <UsersPage pageTitle={'example'}/>} />
             <Route path="/settings" render={() => <Settings />} />
-            <Route path="/login" render={() => <LoginPage />} />
+            <Route path="/login" render={() => <Login />} />
           </div>
         </div>
     );
