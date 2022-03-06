@@ -102,6 +102,7 @@ type ThunkType = BaseThunkType<ActionsTypes>
 export const getUsersThunkCreator = (currentPage: number, pageSize: number, filter: FilterType): ThunkType => async (dispatch, getState) => {//для замыкания что бы thunk мог достучаться до данных переданных в getUsersThunkCreator
 	dispatch(actions.toggleIsFetching(true));
 	dispatch(actions.setFilter(filter));
+	dispatch(actions.setCurrentPage(currentPage));
 	let data = await usersAPI.getUsers(currentPage, pageSize, filter.term, filter.friend);
 	dispatch(actions.toggleIsFetching(false));
 	dispatch(actions.setUsers(data.items));
