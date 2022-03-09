@@ -3,33 +3,37 @@ import { NavLink } from "react-router-dom";
 import s from './Header.module.css';
 import { Button, Space } from 'antd';
 import { PoweroffOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurrentUserLogin, selectIsAuth } from "../../redux/auth-selectors";
+import { logout } from "../../redux/auth-reducer";
 
 export type MapPropsType = {
-	isAuth: boolean
-	login: string | null
 }
-export type DispatchPropsType = {
-	logout: () => void
-}
+ 
+export const HeaderLogin: React.FC<MapPropsType> = (props) => {
 
+	const isAuth = useSelector(selectIsAuth)
+	const login = useSelector(selectCurrentUserLogin)
 
-const Header: React.FC<MapPropsType & DispatchPropsType> = (props) => {
+	const dispatch = useDispatch()
+
+	const logoutCallback = () => {
+		dispatch(logout())
+	}
+
 	return (
 		<header className={s.header}>
-			<div>
-				<img src="https://images.theconversation.com/files/93616/original/image-20150902-6700-t2axrz.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1000&fit=clip" alt="" />
-			</div>
 			<div className={s.login__block}>
-				{props.isAuth 
+				{isAuth 
 					? <div>
 						<span>
-							{`${props.login} `}
+							{`${login} `}
 						</span>
 						<span>
 							<Button
 								type="primary"
 								icon={<PoweroffOutlined />}
-								onClick={() => {props.logout()}}
+								onClick={() => { logoutCallback()}}
 							/>
 						</span>
 					</div>
@@ -39,5 +43,3 @@ const Header: React.FC<MapPropsType & DispatchPropsType> = (props) => {
 		</header>
 	)
 }
-
-export default Header;

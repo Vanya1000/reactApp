@@ -1,15 +1,9 @@
 .header {
-	grid-area: h;
-	background-color: #fff;
-	border-radius: 7px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
 	padding: 0px 10px;
+	color: rgb(255, 255, 255);
+	font-style: inherit;
 }
-.header img {
-	width: 45px;	
-}
+
 .login__block a {
-	color: black;
+	color: rgb(255, 255, 255);
 }

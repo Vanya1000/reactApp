@@ -31,7 +31,7 @@ body {
 	width: 100%;
 	font-size: 100%;
 	line-height: 1;
-	font-size: 14px;
+
 	-ms-text-size-adjust: 100%;
 	-moz-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
@@ -74,34 +74,4 @@ h6 {
 	font-weight: inherit;
 }
 /*--------------------*/
-body {
-  background-color: #edeef0;
-}
-body {
-  
-  padding: 40px;
-  margin: 0 auto;
-  font-size: 20px;
-}
 
-.app-wrapper {
-	width: 1200px;
-	margin: 0 auto;
-	display: grid;
-	grid-template:
-         [row1-start] "h h" 60px [row1-end]
-         [row2-start] "n c" 1fr [row2-end]
-         / 2fr 10fr;
-	grid-gap: 10px;
-
-}
-
-.app-wrapper-content {
-	grid-area: c;
-	background-color: rgb(233, 233, 233);
-	border-radius: 5px;
-}
-
-.activeLink {
-  color: black;
-}

@@ -9,7 +9,6 @@ import NotesContainer from './components/Notes/NotesContainer';
 import { UsersPage } from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profile/ProfileContainer';
 import { NavLink, Route } from 'react-router-dom';
-import HeaderContainer from './components/Header/HeaderContainer';
 import { connect } from "react-redux";
 import { initializeApp } from "./redux/appReducer";
 import Preloader from "./components/common/Preloader/Preloader";
@@ -19,14 +18,19 @@ import DialogsContainer from './components/Dialogs/DialogsContainer';
 import { withSuspense } from "./HOC/withSuspense";
 import { AppStateType } from "./redux/redux-store";
 import { Login } from "./components/Login/Login";
-import { Button } from "antd";
+import { Button, Col, Row } from "antd";
 //const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer')); // изменить имя
 
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { HeaderLogin } from "./components/Header/HeaderLogin";
+
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
+
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'));
+
 
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
@@ -36,6 +40,7 @@ type DispatchPropsType = {
 
 const SuspendedDialogs = withSuspense(DialogsContainer);
 const SuspendedProfile = withSuspense(ProfileContainer);
+const SuspendedChat = withSuspense(ChatPage);// обертка наш HOC 
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
   componentDidMount() {
@@ -49,19 +54,19 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
       <Layout>
         <Header className="header">
           <div className="logo" />
-          <Menu theme="dark" mode="horizontal" /* defaultSelectedKeys={['2']} */>
-            <Menu.Item key="1"><NavLink to="/profile">Profile</NavLink></Menu.Item>
-            <Menu.Item key="2"><NavLink to="/users">Users</NavLink></Menu.Item>
-            <Menu.Item key="3">ndfg</Menu.Item>
-            <HeaderContainer />
-          </Menu>
+          <Row>
+            <Col flex="auto">
+              <Menu theme="dark" mode="horizontal" /* defaultSelectedKeys={['2']} */>
+                <Menu.Item key="1"><NavLink to="/profile">Profile</NavLink></Menu.Item>
+                <Menu.Item key="2"><NavLink to="/users">Users</NavLink></Menu.Item>
+              </Menu>
+            </Col>
+            <Col flex="none">
+              <HeaderLogin />
+            </Col>
+          </Row>
         </Header>
         <Content style={{ padding: '0 50px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
           <Layout className="site-layout-background" style={{ padding: '24px 0' }}>
             <Sider className="site-layout-background" width={200}>
               <Menu
@@ -82,11 +87,12 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                   <Menu.Item key="5"><NavLink to="/music">Music</NavLink></Menu.Item>
                   <Menu.Item key="6"><NavLink to="/notes">Notes</NavLink></Menu.Item>
                   <Menu.Item key="7"><NavLink to="/settings">Settings</NavLink></Menu.Item>
+                  <Menu.Item key="8"><NavLink to="/chat">Chat</NavLink></Menu.Item>
                 </SubMenu>
               </Menu>
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
-              <div className='app-wrapper-content'>
+              <div >
                 <Route path="/dialogs" render={() => <SuspendedDialogs />} />
                 <Route path="/profile/:userId?" render={() => <SuspendedProfile />} />
                 <Route path="/news" render={() => <News />} />
@@ -95,6 +101,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                 <Route path="/users" render={() => <UsersPage pageTitle={'example'} />} />
                 <Route path="/settings" render={() => <Settings />} />
                 <Route path="/login" render={() => <Login />} />
+                <Route path="/chat" render={() => <SuspendedChat />} />
               </div>
             </Content>
           </Layout>
@@ -104,7 +111,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
     );
   }
 }
-const mapStateToProps = (state:AppStateType) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized
 
 })
