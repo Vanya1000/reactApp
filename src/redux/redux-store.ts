@@ -2,6 +2,7 @@ import { Action, applyMiddleware, combineReducers, compose, createStore } from "
 import thunkMiddleware, { ThunkAction } from "redux-thunk";
 import appReducer from "./appReducer";
 import authReducer from "./auth-reducer";
+import chatReducer from "./chat-reducer";
 import dialogsReducer from "./dialogsReducer";
 import noteReducer from "./noteReducer";
 import profileReducer from "./profileReducer";
@@ -16,6 +17,7 @@ let rootReducer = combineReducers({
 	usersPage: usersReducer,
 	app: appReducer,
 	auth: authReducer,
+	chat: chatReducer
 });
 
 type RootReducerType = typeof rootReducer;
